@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.params=
+comment0.target=SList()
+comment0.text=\n\ \ SList()\ constructs\ for\ an\ empty\ SList.\n
+comment1.params=item
+comment1.target=void\ insertFront(java.lang.Object)
+comment1.text=\n\ \ insertFront()\ inserts\ an\ item\ at\ the\ front\ of\ this\ SList.\n\n\ \ @param\ item\ is\ the\ item\ to\ be\ inserted.\n\n\ \ Performance\:\ \ runs\ in\ O(1)\ time.\n
+comment2.params=item
+comment2.target=void\ insertBack(java.lang.Object)
+comment2.text=\n\ \ insertBack()\ inserts\ an\ item\ at\ the\ back\ of\ this\ SList.\n\n\ \ @param\ item\ is\ the\ item\ to\ be\ inserted.\n\n\ \ Performance\:\ \ runs\ in\ O(1)\ time.\n
+comment3.params=
+comment3.target=ListNode\ front()
+comment3.text=\n\ \ front()\ returns\ the\ node\ at\ the\ front\ of\ this\ SList.\ \ If\ the\ SList\ is\n\ \ empty,\ return\ an\ "invalid"\ node--a\ node\ with\ the\ property\ that\ any\n\ \ attempt\ to\ use\ it\ will\ cause\ an\ exception.\n\n\ \ @return\ a\ ListNode\ at\ the\ front\ of\ this\ SList.\n\n\ \ Performance\:\ \ runs\ in\ O(1)\ time.\n
+comment4.params=
+comment4.target=ListNode\ back()
+comment4.text=\n\ \ back()\ returns\ the\ node\ at\ the\ back\ of\ this\ SList.\ \ If\ the\ SList\ is\n\ \ empty,\ return\ an\ "invalid"\ node--a\ node\ with\ the\ property\ that\ any\n\ \ attempt\ to\ use\ it\ will\ cause\ an\ exception.\n\n\ \ @return\ a\ ListNode\ at\ the\ back\ of\ this\ SList.\n\n\ \ Performance\:\ \ runs\ in\ O(1)\ time.\n
+comment5.params=
+comment5.target=java.lang.String\ toString()
+comment5.text=\n\ \ toString()\ returns\ a\ String\ representation\ of\ this\ SList.\n\n\ \ @return\ a\ String\ representation\ of\ this\ SList.\n\n\ \ Performance\:\ \ runs\ in\ O(n)\ time,\ where\ n\ is\ the\ length\ of\ the\ list.\n
+comment6.params=p
+comment6.target=void\ testInvalidNode(ListNode)
+comment7.params=
+comment7.target=void\ testEmpty()
+comment8.params=argv
+comment8.target=void\ main(java.lang.String[])
+numComments=9
