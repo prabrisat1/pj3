@@ -11,12 +11,21 @@ import java.util.Hashtable;
 
 public class WUGraph {
 
+    private HashTableChained edgeHashTable;
+    private HashTableChained vertexHashTable;
+    private int numberOfEdges;
+    
   /**
    * WUGraph() constructs a graph having no vertices or edges.
    *
    * Running time:  O(1).
    */
-  public WUGraph();
+    public WUGraph() {
+	edgeHashTable = new HashTableChained();
+	vertexHashTable = new HashTableChained();
+	numberOfEdges = 0;
+
+    }
 
   /**
    * vertexCount() returns the number of vertices in the graph.
@@ -30,7 +39,9 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-  public int edgeCount();
+    public int edgeCount() {
+	return numberOfEdges;
+    }
 
   /**
    * getVertices() returns an array containing all the objects that serve
@@ -110,7 +121,13 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-  public void addEdge(Object u, Object v, int weight);
+    public void addEdge(Object u, Object v, int weight) {
+	if(vertexHashTable.find(u) != null && vertexHashTable.find(v) != null) {
+	    VertexPair vPair = new VertexPair(u,v);
+	    edgeHashTable.insert(vPair,weight);
+	    numberOfEdges++;
+	}
+    }
 
   /**
    * removeEdge() removes an edge (u, v) from the graph.  If either of the
@@ -120,7 +137,13 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-  public void removeEdge(Object u, Object v);
+    public void removeEdge(Object u, Object v) {
+	if(vertexHashTable.find(u) != null && vertexHashTable.find(v) != null) {
+	    VertexPair vPair = new VertexPair(u,v);
+	    edgeHashTable.remove(vPair);
+	    numberOfEdges--;
+	}
+    }
 
   /**
    * isEdge() returns true if (u, v) is an edge of the graph.  Returns false
@@ -129,7 +152,10 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-  public boolean isEdge(Object u, Object v);
+    public boolean isEdge(Object u, Object v) {
+	VertexPair vPair = new VertexPair(u,v);
+	return edgeHashTable.find(vPair) != null;
+    }
 
   /**
    * weight() returns the weight of (u, v).  Returns zero if (u, v) is not
@@ -145,6 +171,14 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-  public int weight(Object u, Object v);
-
+    public int weight(Object u, Object v) {
+	VertexPair vPair = new VertexPair(u,v);
+	int weight = edgeHashTable.find(vPair);
+	if(weight == null) {
+	    return 0;
+	}
+	else {
+	    return weight;
+	}
+    }
 }
