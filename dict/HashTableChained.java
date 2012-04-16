@@ -1,6 +1,6 @@
 /* HashTableChained.java */
 package dict;
-import list.*;
+import hw5.list.*;
 
 /**
  *  HashTableChained implements a Dictionary as a hash table with chaining.

@@ -1,6 +1,7 @@
 /* Set.java */
+package hw5;
+import hw5.list.*;
 
-import list.*;
 import java.lang.Comparable;
 
 /**
