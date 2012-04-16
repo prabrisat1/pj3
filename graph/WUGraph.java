@@ -9,29 +9,19 @@ import java.util.Hashtable;
  * The WUGraph class represents a weighted, undirected graph.  Self-edges are
  * permitted.
  */
-
 public class WUGraph {
-<<<<<<< HEAD
 	protected int vertexcount;
-	protected int edgecount;
 	protected DList valist;
-=======
-
     private HashTableChained edgeHashTable;
     private HashTableChained vertexHashTable;
     private int numberOfEdges;
     
->>>>>>> 3f024bdbea9c1b357f93ae33e54626ac78cd5948
   /**
    * WUGraph() constructs a graph having no vertices or edges.
    *
    * Running time:  O(1).
    */
-<<<<<<< HEAD
-  public WUGraph(){
-  }
   	
-=======
     public WUGraph() {
 	edgeHashTable = new HashTableChained();
 	vertexHashTable = new HashTableChained();
@@ -39,7 +29,6 @@ public class WUGraph {
 
     }
 
->>>>>>> 3f024bdbea9c1b357f93ae33e54626ac78cd5948
   /**
    * vertexCount() returns the number of vertices in the graph.
    *
@@ -54,15 +43,11 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-<<<<<<< HEAD
-  public int edgeCount(){
-	  	return 0;
-  }
-=======
+
     public int edgeCount() {
 	return numberOfEdges;
     }
->>>>>>> 3f024bdbea9c1b357f93ae33e54626ac78cd5948
+
 
   /**
    * getVertices() returns an array containing all the objects that serve
@@ -149,11 +134,7 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-<<<<<<< HEAD
-  public void addEdge(Object u, Object v, int weight){
-  }
-  		
-=======
+
     public void addEdge(Object u, Object v, int weight) {
 	if(vertexHashTable.find(u) != null && vertexHashTable.find(v) != null) {
 	    VertexPair vPair = new VertexPair(u,v);
@@ -162,7 +143,6 @@ public class WUGraph {
 	}
     }
 
->>>>>>> 3f024bdbea9c1b357f93ae33e54626ac78cd5948
   /**
    * removeEdge() removes an edge (u, v) from the graph.  If either of the
    * parameters u and v does not represent a vertex of the graph, the graph
@@ -171,10 +151,7 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-<<<<<<< HEAD
-  public void removeEdge(Object u, Object v){
-  }
-=======
+
     public void removeEdge(Object u, Object v) {
 	if(vertexHashTable.find(u) != null && vertexHashTable.find(v) != null) {
 	    VertexPair vPair = new VertexPair(u,v);
@@ -182,7 +159,6 @@ public class WUGraph {
 	    numberOfEdges--;
 	}
     }
->>>>>>> 3f024bdbea9c1b357f93ae33e54626ac78cd5948
 
   /**
    * isEdge() returns true if (u, v) is an edge of the graph.  Returns false
@@ -191,17 +167,11 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-<<<<<<< HEAD
-  public boolean isEdge(Object u, Object v){
-	  return false;
-  }
-=======
+
     public boolean isEdge(Object u, Object v) {
 	VertexPair vPair = new VertexPair(u,v);
 	return edgeHashTable.find(vPair) != null;
     }
->>>>>>> 3f024bdbea9c1b357f93ae33e54626ac78cd5948
-
   /**
    * weight() returns the weight of (u, v).  Returns zero if (u, v) is not
    * an edge (including the case where either of the parameters u and v does
@@ -216,12 +186,7 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-<<<<<<< HEAD
-  public int weight(Object u, Object v){
-	  return 0;
-  }
 
-=======
     public int weight(Object u, Object v) {
 	VertexPair vPair = new VertexPair(u,v);
 	int weight = edgeHashTable.find(vPair);
@@ -232,5 +197,4 @@ public class WUGraph {
 	    return weight;
 	}
     }
->>>>>>> 3f024bdbea9c1b357f93ae33e54626ac78cd5948
 }
