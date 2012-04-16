@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.params=
+comment0.target=DList()
+comment0.text=\n\ \ DList()\ constructs\ for\ an\ empty\ DList.\n
+comment1.params=item
+comment1.target=void\ insertFront(java.lang.Object)
+comment1.text=\n\ \ insertFront()\ inserts\ an\ item\ at\ the\ front\ of\ this\ DList.\n\n\ \ @param\ item\ is\ the\ item\ to\ be\ inserted.\n\n\ \ Performance\:\ \ runs\ in\ O(1)\ time.\n
+comment2.params=item
+comment2.target=void\ insertBack(java.lang.Object)
+comment2.text=\n\ \ insertBack()\ inserts\ an\ item\ at\ the\ back\ of\ this\ DList.\n\n\ \ @param\ item\ is\ the\ item\ to\ be\ inserted.\n\n\ \ Performance\:\ \ runs\ in\ O(1)\ time.\n
+comment3.params=
+comment3.target=java.lang.String\ toString()
+comment3.text=\n\ \ toString()\ returns\ a\ String\ representation\ of\ this\ DList.\n\n\ \ DO\ NOT\ CHANGE\ THIS\ METHOD.\n\n\ \ @return\ a\ String\ representation\ of\ this\ DList.\n\n\ \ Performance\:\ \ runs\ in\ O(n)\ time,\ where\ n\ is\ the\ length\ of\ the\ list.\n
+comment4.params=
+comment4.target=void\ testEmpty()
+comment5.params=argv
+comment5.target=void\ main(java.lang.String[])
+numComments=6
