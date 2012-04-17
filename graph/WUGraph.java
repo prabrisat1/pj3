@@ -9,9 +9,10 @@ import java.util.Hashtable;
  * The WUGraph class represents a weighted, undirected graph.  Self-edges are
  * permitted.
  */
+
 public class WUGraph {
-	protected int vertexcount;
-	protected DList valist;
+	private DList vertexList;
+	private int numberOfVertexes;
     private HashTableChained edgeHashTable;
     private HashTableChained vertexHashTable;
     private int numberOfEdges;
@@ -23,10 +24,10 @@ public class WUGraph {
    */
   	
     public WUGraph() {
-	edgeHashTable = new HashTableChained();
-	vertexHashTable = new HashTableChained();
-	numberOfEdges = 0;
-
+    	edgeHashTable = new HashTableChained();
+    	vertexHashTable = new HashTableChained();
+    	numberOfEdges = 0;	
+    	numberOfVertexes = 0;	
     }
 
   /**
@@ -35,7 +36,7 @@ public class WUGraph {
    * Running time:  O(1).
    */
   public int vertexCount(){
-	  return 0;
+	  return numberOfVertexes;
   }
 
   /**
@@ -62,7 +63,20 @@ public class WUGraph {
    * Running time:  O(|V|).
    */
   public Object[] getVertices(){
-	  return null;
+	  Object[] result;
+	  if(numberOfVertexes == 0){
+		  result = new Object[0];
+	  }else{
+		  result = new Object[numberOfVertexes];
+		  try{
+			  DListNode tracker = vertexList.gethead();
+			  for(int n = 0; n<numberOfVertexes; tracker.next()){
+				  result[n] = tracker.item();
+			  }
+		  }catch(InvalidNodeException a){
+		  }
+	  }
+	  return result;
   }
 
   /**
@@ -73,6 +87,13 @@ public class WUGraph {
    * Running time:  O(1).
    */
   public void addVertex(Object vertex){
+	  if(vertexHashTable.find(vertex) == null) {
+  			InternalVertex iVertex = new InternalVertex(vertex);
+		    Entry a = vertexHashTable.insert(vertex, iVertex); 
+		    //a is never used, only there because the hashtable insert method returns an entry
+		    numberOfVertexes++;
+		    vertexList.insertBack(vertex); //used in getVertices() only
+	  }	
   }
 
   /**
@@ -83,6 +104,10 @@ public class WUGraph {
    * Running time:  O(d), where d is the degree of "vertex".
    */
   public void removeVertex(Object vertex){
+	  Entry a = vertexHashTable.remove(vertex);
+	  if(a != null){
+		  
+	  }
   }
 
   /**
@@ -92,7 +117,7 @@ public class WUGraph {
    * Running time:  O(1).
    */
   public boolean isVertex(Object vertex){
-  	return false;
+	return vertexHashTable.find(vertex) != null;
   }
   /**
    * degree() returns the degree of a vertex.  Self-edges add only one to the
@@ -102,7 +127,13 @@ public class WUGraph {
    * Running time:  O(1).
    */
   public int degree(Object vertex){
-  		return 0;
+  		Entry a = vertexHashTable.find(vertex);
+  		int result = 0;
+  		if(a != null){
+  			InternalVertex iv = (InternalVertex) a.value();
+  			result = iv.getAdjacencyListSize();
+  		}
+  		return result;
   }
   /**
    * getNeighbors() returns a new Neighbors object referencing two arrays.  The
