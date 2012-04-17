@@ -106,8 +106,42 @@ public class WUGraph {
   public void removeVertex(Object vertex){
 	  Entry a = vertexHashTable.remove(vertex);
 	  if(a != null){
-		  
-	  }
+		  InternalVertex iVertex = (InternalVertex) a.value();
+		  DList adjacencyList = iVertex.getAdjacencyList();
+		  DListNode edgeTracker = adjacencyList.gethead();
+		  for(int n = 0; n < iVertex.getAdjacencyListSize(); n++){
+			  try{
+				  Edge e1 = (Edge) edgeTracker.item();
+				  if(e1.isSelfEdge()){
+					  edgeTracker.remove();
+					  numberOfEdges --;
+				  }else{
+					  Edge e2 = e1.getHalfEdge();
+					  edgeTracker.remove();
+					  numberOfEdges --;
+					  Object e2end = e2.getEnd();
+					  Entry b = vertexHashTable.find(e2end);
+					  InternalVertex iVertex2 = (InternalVertex) b.value();
+					  DList adjacencyList2 = iVertex2.getAdjacencyList();
+					  DListNode edgeTracker2 = adjacencyList2.gethead();
+					  for(int m = 0; m<iVertex2.getAdjacencyListSize(); m++){
+						  try{
+							  Edge e3 = (Edge) edgeTracker.item();
+							  if(e3.equals(e2)){
+								  edgeTracker2.remove();
+								  numberOfEdges --;
+								  break;
+							  }
+							  edgeTracker2 = (DListNode) edgeTracker2.next();
+						  }catch(InvalidNodeException error){
+						  }
+					  }
+				  }
+				  edgeTracker = (DListNode) edgeTracker.next();
+			  }catch(InvalidNodeException error){
+			  }
+		  }
+	  }  
   }
 
   /**
@@ -154,7 +188,25 @@ public class WUGraph {
    * Running time:  O(d), where d is the degree of "vertex".
    */
   public Neighbors getNeighbors(Object vertex){
-  		return null;
+  		Entry a = vertexHashTable.find(vertex);
+  		InternalVertex iv = (InternalVertex) a.value();
+  		DList adjacencyList = iv.getAdjacencyList();
+  		DListNode edgeTracker = adjacencyList.gethead();
+  		Object[] neighborList = new Object[iv.getAdjacencyListSize()];
+  		int[] weightList = new int[iv.getAdjacencyListSize()];
+  		for(int n = 0; n<iv.getAdjacencyListSize(); n++){
+  			try{
+  				Edge edge1 = (Edge) edgeTracker.item();
+  				neighborList[n] = edge1;
+  				VertexPair vpair = new VertexPair(edge1.getStart(), edge1.getEnd());
+  				Entry b = edgeHashTable.find(vpair);
+  				int weight1 = (int) b.value();
+  				weightList[n] = weight1;
+  			}catch(InvalidNodeException error){
+  			}
+  		}
+  		Neighbors result = new Neighbors(neighborList, weightList);
+  		return result;
   }
   /**
    * addEdge() adds an edge (u, v) to the graph.  If either of the parameters
