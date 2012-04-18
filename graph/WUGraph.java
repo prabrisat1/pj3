@@ -11,8 +11,8 @@ import java.util.Hashtable;
  */
 
 public class WUGraph {
-	private DList vertexList;
-	private int numberOfVertexes;
+    private DList vertexList;
+    private int numberOfVertexes;
     private HashTableChained edgeHashTable;
     private HashTableChained vertexHashTable;
     private int numberOfEdges;
@@ -95,7 +95,7 @@ public class WUGraph {
 		    vertexList.insertBack(vertex); //used in getVertices() only
 	  }	
   }
-
+    
   /**
    * removeVertex() removes a vertex from the graph.  All edges incident on the
    * deleted vertex are removed as well.  If the parameter "vertex" does not
@@ -106,41 +106,41 @@ public class WUGraph {
   public void removeVertex(Object vertex){
 	  Entry a = vertexHashTable.remove(vertex);
 	  if(a != null){
-		  InternalVertex iVertex = (InternalVertex) a.value();
-		  DList adjacencyList = iVertex.getAdjacencyList();
-		  DListNode edgeTracker = adjacencyList.gethead();
-		  for(int n = 0; n < iVertex.getAdjacencyListSize(); n++){
-			  try{
-				  Edge e1 = (Edge) edgeTracker.item();
-				  if(e1.isSelfEdge()){
-					  edgeTracker.remove();
-					  numberOfEdges --;
-				  }else{
-					  Edge e2 = e1.getHalfEdge();
-					  edgeTracker.remove();
-					  numberOfEdges --;
-					  Object e2end = e2.getEnd();
-					  Entry b = vertexHashTable.find(e2end);
-					  InternalVertex iVertex2 = (InternalVertex) b.value();
-					  DList adjacencyList2 = iVertex2.getAdjacencyList();
-					  DListNode edgeTracker2 = adjacencyList2.gethead();
-					  for(int m = 0; m<iVertex2.getAdjacencyListSize(); m++){
-						  try{
-							  Edge e3 = (Edge) edgeTracker.item();
-							  if(e3.equals(e2)){
-								  edgeTracker2.remove();
-								  numberOfEdges --;
-								  break;
-							  }
-							  edgeTracker2 = (DListNode) edgeTracker2.next();
-						  }catch(InvalidNodeException error){
-						  }
-					  }
+	      InternalVertex iVertex = (InternalVertex) a.value();
+	      DList adjacencyList = iVertex.getAdjacencyList();
+	      DListNode edgeTracker = adjacencyList.gethead();
+	      for(int n = 0; n < iVertex.getAdjacencyListSize(); n++){
+		  try{
+		      Edge e1 = (Edge) edgeTracker.item();
+		      if(e1.isSelfEdge()){
+			  edgeTracker.remove();
+			  numberOfEdges --;
+		      }else{
+			  Edge e2 = e1.getHalfEdge();
+			  edgeTracker.remove();
+			  numberOfEdges --;
+			  Object e2end = e2.getEnd();
+			  Entry b = vertexHashTable.find(e2end);
+			  InternalVertex iVertex2 = (InternalVertex) b.value();
+			  DList adjacencyList2 = iVertex2.getAdjacencyList();
+			  DListNode edgeTracker2 = adjacencyList2.gethead();
+			  for(int m = 0; m<iVertex2.getAdjacencyListSize(); m++){
+			      try{
+				  Edge e3 = (Edge) edgeTracker.item();
+				  if(e3.equals(e2)){
+				      edgeTracker2.remove();
+				      numberOfEdges --;
+				      break;
 				  }
-				  edgeTracker = (DListNode) edgeTracker.next();
-			  }catch(InvalidNodeException error){
+				  edgeTracker2 = (DListNode) edgeTracker2.next();
+			      }catch(InvalidNodeException error){
+			      }
 			  }
+		      }
+		      edgeTracker = (DListNode) edgeTracker.next();
+		  }catch(InvalidNodeException error){
 		  }
+	      }
 	  }  
   }
 
@@ -200,7 +200,7 @@ public class WUGraph {
   				neighborList[n] = edge1;
   				VertexPair vpair = new VertexPair(edge1.getStart(), edge1.getEnd());
   				Entry b = edgeHashTable.find(vpair);
-  				int weight1 = (int) b.value();
+  				int weight1 = (Integer)b.value();
   				weightList[n] = weight1;
   			}catch(InvalidNodeException error){
   			}
@@ -272,12 +272,12 @@ public class WUGraph {
 
     public int weight(Object u, Object v) {
 	VertexPair vPair = new VertexPair(u,v);
-	int weight = edgeHashTable.find(vPair);
-	if(weight == null) {
+	Entry entry = edgeHashTable.find(vPair);
+	if(entry.value() == null) {
 	    return 0;
 	}
 	else {
-	    return weight;
+	    return (Integer)entry.value();
 	}
     }
 }
