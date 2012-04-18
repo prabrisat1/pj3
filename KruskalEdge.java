@@ -8,7 +8,7 @@ import set.*;
  *  Stores the two vertices and the weight.
  */
 
-public class Edge {
+public class KruskalEdge {
 
   public Object vert1; // Vertex 1
   public Object vert2; // Vertex 2

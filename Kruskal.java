@@ -62,7 +62,7 @@ public class Kruskal {
 			// already been visited, the edge is already
 			// added).
 			if(visited.find(n.neighborList[j])){
-				edges.insertBack(new Edge(vertices[i], n.neighborList[j], n.weightList[j]));
+				edges.insertBack(new KruskalEdge(vertices[i], n.neighborList[j], n.weightList[j]));
 			}
 		}
 
