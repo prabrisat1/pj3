@@ -1,8 +1,10 @@
 /* Kruskal.java */
 
 import java.util.Hashtable;
+import dict.*;
 import graph.*;
 import set.*;
+import list.*;
 
 /**
  * The Kruskal class contains the method minSpanTree(), which implements
@@ -32,12 +34,22 @@ public class Kruskal {
 	WUGraph T = new WUGraph();
 
         // Create the list of edges from the original graph
-	SList edges = new SList();	
+	DList edges = new DList();	
 
-	// Create a hash table to 
-
-
+	// Get the vertices from the original graph
 	Object[] vertices = g.getVertices();
+
+	// Create a dictionary to mark vertices as visited.
+	// Since the vertices don't necessarily have any sort
+	// of visited field, at least one that we know about,
+	// we need to keep track of visited vertices with an
+	// external data structure. To keep the cost of lookup
+	// as low as possible, we need a hash table. While the
+	// space usage may be high, it is the best option for
+	// speed, and after adding all of the edges, the reference
+	// is immediately set to null to speed up garbage collection.
+	Dictionary visited = new HashTableChained(); 
+
 	for(int i = 0; i < vertices.length; i++){
 		// Add the vertices from the original graph into T
 		T.addVertex(vertices[i]);
@@ -46,22 +58,43 @@ public class Kruskal {
 		Neighbors n = getNeighbors(vertices[i]);
 		for(int j = 0; j < n.neighborList.length; j++){
 			// If the edge is not already in the list,
-			// add it to the list of edges
-			if(     ){
+			// add it to the list of edges (if the vertex
+			// opposite to this in the current edge has
+			// already been visited, the edge is already
+			// added).
+			if(visited.find(n.neighborList[j])){
 				edges.insertBack(new Edge(vertices[i], n.neighborList[j], n.weightList[j]));
 			}
 		}
 
 		// Mark this vertex as visited (to prevent duplicate edges
 		// in the list of all of the edges)
+		visited.insert(vertices[i], true);
 	}
 
+        // Assign the dictionary to null, since we don't need it
+	// anymore and to speed up garbage collection
+	visited = null;
 
 
-	// Sort edges
+	// Sort edges using radix sort
 
+	
 
 	// Use disjoint sets to find edges of minimum spanning tree
+  }
+
+
+  /*
+  *  radixSort() sorts a DList d of edges by weights using radix sort.
+  *  The passed in list IS ALTERED.
+  */
+  public static void radixSortWeights(DList d){
+	// Chooses the radix to be the highest power of two less than the
+	// length of the less
+	int radix = (int) Math.pow(2, (Math.log(d.size())/Math.log(2)));
+
+	
   }
 
   
