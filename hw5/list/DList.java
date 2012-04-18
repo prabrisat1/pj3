@@ -1,6 +1,6 @@
 /* DList.java */
 
-package list;
+package hw5.list;
 
 /**
  *  A DList is a mutable doubly-linked list ADT.  Its implementation is
@@ -21,7 +21,7 @@ public class DList extends List {
    **/
 
   protected DListNode head;
-    public int size= 0;
+    protected int size= 0;
 
   /* DList invariants:
    *  1)  head != null.
@@ -62,6 +62,22 @@ public class DList extends List {
       head.next = head;
       head.prev = head;
   }
+  
+  /**
+   * returns the head of the DList
+   */
+  public DListNode gethead(){
+	  return head;
+  }
+  
+  
+  /*
+   * returns the size of the DList
+   */
+  public int getSize(){
+	  return this.size;
+  }
+  
   /**
    *  insertFront() inserts an item at the front of this DList.
    *

@@ -1,6 +1,6 @@
 /* SList.java */
 
-package hw5.list;
+package list;
 
 /**
  *  A SList is a mutable singly-linked list ADT.  Its implementation employs

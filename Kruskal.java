@@ -18,6 +18,8 @@ public class Kruskal {
    * of the WUGraph g.  The original WUGraph g is NOT changed.
    */
   public static WUGraph minSpanTree(WUGraph g){
+	  return null;
+  }
 
 	// - Make new empty graph
 	// - Get vertices, add them all to the new graph

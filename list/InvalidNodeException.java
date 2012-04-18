@@ -1,6 +1,6 @@
 /* InvalidNodeException.java */
 
-package hw5.list;
+package list;
 
 /**
  *  Implements an Exception that signals an attempt to use an invalid ListNode.

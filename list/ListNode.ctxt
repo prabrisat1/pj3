@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.params=
+comment0.target=boolean\ isValidNode()
+comment0.text=\n\ \ isValidNode\ returns\ true\ if\ this\ node\ is\ valid;\ false\ otherwise.\n\ \ By\ default,\ an\ invalid\ node\ is\ one\ that\ doesn't\ belong\ to\ a\ list\ (myList\n\ \ is\ null),\ but\ subclasses\ can\ override\ this\ definition.\n\n\ \ @return\ true\ if\ this\ node\ is\ valid;\ false\ otherwise.\n\n\ \ Performance\:\ \ runs\ in\ O(1)\ time.\n
+comment1.params=
+comment1.target=java.lang.Object\ item()
+comment1.text=\n\ \ item()\ returns\ this\ node's\ item.\ \ If\ this\ node\ is\ invalid,\n\ \ throws\ an\ exception.\n\n\ \ @return\ the\ item\ stored\ in\ this\ node.\n\n\ \ Performance\:\ \ runs\ in\ O(1)\ time.\n
+comment2.params=item
+comment2.target=void\ setItem(java.lang.Object)
+comment2.text=\n\ \ setItem()\ sets\ this\ node's\ item\ to\ "item".\ \ If\ this\ node\ is\ invalid,\n\ \ throws\ an\ exception.\n\n\ \ Performance\:\ \ runs\ in\ O(1)\ time.\n
+comment3.params=
+comment3.target=ListNode\ next()
+comment3.text=\n\ \ next()\ returns\ the\ node\ following\ this\ node.\ \ If\ this\ node\ is\ invalid,\n\ \ throws\ an\ exception.\n\n\ \ @return\ the\ node\ following\ this\ node.\n\ \ @exception\ InvalidNodeException\ if\ this\ node\ is\ not\ valid.\n
+comment4.params=
+comment4.target=ListNode\ prev()
+comment4.text=\n\ \ prev()\ returns\ the\ node\ preceding\ this\ node.\ \ If\ this\ node\ is\ invalid,\n\ \ throws\ an\ exception.\n\n\ \ @param\ node\ the\ node\ whose\ predecessor\ is\ sought.\n\ \ @return\ the\ node\ preceding\ this\ node.\n\ \ @exception\ InvalidNodeException\ if\ this\ node\ is\ not\ valid.\n
+comment5.params=item
+comment5.target=void\ insertAfter(java.lang.Object)
+comment5.text=\n\ \ insertAfter()\ inserts\ an\ item\ immediately\ following\ this\ node.\ \ If\ this\n\ \ node\ is\ invalid,\ throws\ an\ exception.\n\n\ \ @param\ item\ the\ item\ to\ be\ inserted.\n\ \ @exception\ InvalidNodeException\ if\ this\ node\ is\ not\ valid.\n
+comment6.params=item
+comment6.target=void\ insertBefore(java.lang.Object)
+comment6.text=\n\ \ insertBefore()\ inserts\ an\ item\ immediately\ preceding\ this\ node.\ \ If\ this\n\ \ node\ is\ invalid,\ throws\ an\ exception.\n\n\ \ @param\ item\ the\ item\ to\ be\ inserted.\n\ \ @exception\ InvalidNodeException\ if\ this\ node\ is\ not\ valid.\n
+comment7.params=
+comment7.target=void\ remove()
+comment7.text=\n\ \ remove()\ removes\ this\ node\ from\ its\ List.\ \ If\ this\ node\ is\ invalid,\n\ \ throws\ an\ exception.\n\n\ \ @exception\ InvalidNodeException\ if\ this\ node\ is\ not\ valid.\n
+numComments=8

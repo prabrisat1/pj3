@@ -1,6 +1,6 @@
 /* List.java */
 
-package hw5.list;
+package list;
 
 /**
  *  A List is a mutable list ADT.  No implementation is provided.

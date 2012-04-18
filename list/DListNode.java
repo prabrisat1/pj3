@@ -1,6 +1,6 @@
 /* DListNode.java */
 
-package hw5.list;
+package list;
 
 /**
  *  A DListNode is a mutable node in a DList (doubly-linked list).

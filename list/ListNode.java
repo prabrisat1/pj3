@@ -1,6 +1,6 @@
 /* ListNode.java */
 
-package hw5.list;
+package list;
 
 /**
  *  A ListNode is a mutable node in a list.  No implementation is provided.
