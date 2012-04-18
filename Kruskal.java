@@ -18,9 +18,6 @@ public class Kruskal {
    * of the WUGraph g.  The original WUGraph g is NOT changed.
    */
   public static WUGraph minSpanTree(WUGraph g){
-	  return null;
-  }
-
 	// - Make new empty graph
 	// - Get vertices, add them all to the new graph
 	// - Use getNeighbors() to obtain all neighbors, get all edges from them
@@ -88,13 +85,10 @@ public class Kruskal {
 
 
   /*
-  *  radixSort() sorts a DList d of edges by weights using radix sort.
+  *  sortWeights() sorts a DList d of edges by weights using quicksort.
   *  The passed in list IS ALTERED.
   */
-  public static void radixSortWeights(DList d){
-	// Chooses the radix to be the highest power of two less than the
-	// length of the less
-	int radix = (int) Math.pow(2, (Math.log(d.size())/Math.log(2)));
+  public static void sortWeights(DList d){
 
 	
   }
