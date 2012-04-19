@@ -33,14 +33,14 @@ public class Kruskal {
 	WUGraph T = new WUGraph();
 
         // Create the queue of edges from the original graph
-	Queue edges = new LinkedQueue();	
+	LinkedQueue edges = new LinkedQueue();	
 
 	// Get the vertices from the original graph
 	Object[] vertices = g.getVertices();
 
 	// Create a hash table to store unique integer IDs for
 	// the vertices to be used in the disjoint sets
-	Dicionary vertIDs = new HashTableChained(vertices.length);
+	Dictionary vertIDs = new HashTableChained(vertices.length);
 	
 	// Create a dictionary to mark vertices as visited.
 	// Since the vertices don't necessarily have any sort
@@ -63,7 +63,7 @@ public class Kruskal {
 		vertIDs.insert(vertices[i], new Integer(i));
 
 		// Add the edge to the list of edges
-		Neighbors n = getNeighbors(vertices[i]);
+		Neighbors n = g.getNeighbors(vertices[i]);
 		for(int j = 0; j < n.neighborList.length; j++){
 			// If the edge is not already in the list,
 			// add it to the list of edges (if the vertex
@@ -100,17 +100,24 @@ public class Kruskal {
 	// connected by a path
 
 	while(!edges.isEmpty()){
-		KruskalEdge curr = (KruskalEdge) edges.dequeue();
+		KruskalEdge curr;
+		try{
+			curr = (KruskalEdge) edges.dequeue();
+		}
+		catch(QueueEmptyException e){
+			System.err.println(e);
+			break;
+		}
 	
 		// Get the IDs of the vertices from the hash table
-		int vert1 = vertIDs.find(curr.vert1).intValue();
-		int vert2 = vertIDs.find(curr.vert2).intValue();
+		int vert1 = ((Integer)vertIDs.find(curr.vert1).value()).intValue();
+		int vert2 = ((Integer)vertIDs.find(curr.vert2).value()).intValue();
 
 		// If the two vertices are not part of the same disjoint set,
 		// then union their sets and add the (undirected) edge to the
 		// minimum spanning tree T.
 
-		if(minSpanSet.find(vert1) != minSpanSet.find(vert2){
+		if(minSpanSet.find(vert1) != minSpanSet.find(vert2)){
 			minSpanSet.union(vert1, vert2);
 			T.addEdge(curr.vert1, curr.vert2, curr.weight);
 			T.addEdge(curr.vert2, curr.vert1, curr.weight);

@@ -1,6 +1,6 @@
 /* ListSorts.java */
 
-import list.*;
+package list;
 
 public class ListSorts {
 
@@ -185,6 +185,8 @@ public class ListSorts {
    *  more tests of your own to make sure your algorithms works on boundary
    *  cases.  Your test code will not be graded.
    **/
+
+/*
   public static void main(String [] args) {
 
     LinkedQueue q = makeRandom(10);
@@ -198,7 +200,7 @@ public class ListSorts {
     System.out.println(q.toString());
 
     // Custom tests
-    /*
+    
 
     System.out.println("CUSTOM MERGE TESTS");
 
@@ -259,7 +261,7 @@ public class ListSorts {
     System.out.println(q.toString());
     quickSort(q);
     System.out.println(q.toString());
-    */
+    
 
 
     Timer stopWatch = new Timer();
@@ -278,5 +280,5 @@ public class ListSorts {
     System.out.println("Quicksort time, " + SORTSIZE + " Integers:  " +
                        stopWatch.elapsed() + " msec.");
   }
-
+*/
 }

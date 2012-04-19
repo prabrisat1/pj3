@@ -1,4 +1,4 @@
-/* SListNode.java */
+/* QueueSListNode.java */
 
 package list;
 
@@ -9,16 +9,16 @@ package list;
  *  the next node in the list.
  */
 
-class SListNode {
+class QueueSListNode{
   Object item;
-  SListNode next;
+  QueueSListNode next;
 
   /**
    *  SListNode() (with one parameter) constructs a list node referencing the
    *  item "obj".
    */
 
-  SListNode(Object obj) {
+  QueueSListNode(Object obj) {
     item = obj;
     next = null;
   }
@@ -28,7 +28,7 @@ class SListNode {
    *  item "obj", whose next list node is to be "next".
    */
 
-  SListNode(Object obj, SListNode next) {
+  QueueSListNode(Object obj, QueueSListNode next) {
     item = obj;
     this.next = next;
   }
