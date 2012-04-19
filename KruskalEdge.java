@@ -8,7 +8,7 @@ import set.*;
  *  Stores the two vertices and the weight.
  */
 
-public class KruskalEdge {
+public class KruskalEdge implements Comparable{
 
   public Object vert1; // Vertex 1
   public Object vert2; // Vertex 2
@@ -20,5 +20,11 @@ public class KruskalEdge {
       weight = w;
   }
 
+  public int compareTo(Object obj){
+      if(!(obj instanceof KruskalEdge)){
+          System.err.println("This isn't a KruskalEdge, what's wrong with you?!");
+      }
+      return this.weight - ((KruskalEdge) obj).weight;
 
+  }
 }
