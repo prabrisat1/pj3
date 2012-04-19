@@ -32,12 +32,16 @@ public class Kruskal {
 	// Make a new empty graph, T, for the minimum spanning tree
 	WUGraph T = new WUGraph();
 
-        // Create the list of edges from the original graph
-	DList edges = new DList();	
+        // Create the queue of edges from the original graph
+	Queue edges = new LinkedQueue();	
 
 	// Get the vertices from the original graph
 	Object[] vertices = g.getVertices();
 
+	// Create a hash table to store unique integer IDs for
+	// the vertices to be used in the disjoint sets
+	Dicionary vertIDs = new HashTableChained(vertices.length);
+	
 	// Create a dictionary to mark vertices as visited.
 	// Since the vertices don't necessarily have any sort
 	// of visited field, at least one that we know about,
@@ -48,10 +52,15 @@ public class Kruskal {
 	// speed, and after adding all of the edges, the reference
 	// is immediately set to null to speed up garbage collection.
 	Dictionary visited = new HashTableChained(); 
-
+	
 	for(int i = 0; i < vertices.length; i++){
 		// Add the vertices from the original graph into T
 		T.addVertex(vertices[i]);
+
+		// Add the vertex to the vertIDs hash table
+		// to assign it a unique ID to be used
+		// with the disjoint sets
+		vertIDs.insert(vertices[i], new Integer(i));
 
 		// Add the edge to the list of edges
 		Neighbors n = getNeighbors(vertices[i]);
@@ -61,8 +70,8 @@ public class Kruskal {
 			// opposite to this in the current edge has
 			// already been visited, the edge is already
 			// added).
-			if(visited.find(n.neighborList[j])){
-				edges.insertBack(new KruskalEdge(vertices[i], n.neighborList[j], n.weightList[j]));
+			if(visited.find(n.neighborList[j]) == null){
+				edges.enqueue(new KruskalEdge(vertices[i], n.neighborList[j], n.weightList[j]));
 			}
 		}
 
@@ -76,22 +85,42 @@ public class Kruskal {
 	visited = null;
 
 
-	// Sort edges using radix sort
-
+	// Sort edges by weight using mergesort, which is most likely the optimal
+	// choice for linked lists
+	
+	ListSorts.mergeSort(edges);
 	
 
 	// Use disjoint sets to find edges of minimum spanning tree
-  }
+	DisjointSets minSpanSet = new DisjointSets(vertices.length);
 
 
-  /*
-  *  sortWeights() sorts a DList d of edges by weights using quicksort.
-  *  The passed in list IS ALTERED.
-  */
-  public static void sortWeights(DList d){
+	// Go through the sorted list of edges, and add them to the mininum
+	// spanning tree if it the two vertices of the edge are not already
+	// connected by a path
 
+	while(!edges.isEmpty()){
+		KruskalEdge curr = (KruskalEdge) edges.dequeue();
 	
-  }
+		// Get the IDs of the vertices from the hash table
+		int vert1 = vertIDs.find(curr.vert1).intValue();
+		int vert2 = vertIDs.find(curr.vert2).intValue();
 
+		// If the two vertices are not part of the same disjoint set,
+		// then union their sets and add the (undirected) edge to the
+		// minimum spanning tree T.
+
+		if(minSpanSet.find(vert1) != minSpanSet.find(vert2){
+			minSpanSet.union(vert1, vert2);
+			T.addEdge(curr.vert1, curr.vert2, curr.weight);
+			T.addEdge(curr.vert2, curr.vert1, curr.weight);
+		}
+	}
+
+	// Hooray! We did it! Minimum spanning tree get!!!
+
+	return T;
+
+  }
   
 }
