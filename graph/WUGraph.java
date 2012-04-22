@@ -232,6 +232,27 @@ public class WUGraph {
 	    }
 	    edgeHashTable.insert(vPair,weight);
 	    numberOfEdges++;
+
+	    //update adjacency list of the vertices
+	    Entry uEntry = vertexHashTable.remove(u);
+	    Entry vEntry = vertexHashTable.remove(v);
+	    InternalVertex uIV = new InternalVertex(u);
+	    InternalVertex vIV = new InternalVertex(v);
+	    if(uEntry != null) {
+		numberOfVertexes--;
+		uIV = (InternalVertex)uEntry.value();
+	    }
+	    if(vEntry != null) {
+		numberOfVertexes--;
+		vIV = (InternalVertex)vEntry.value();
+	    }
+	    Edge edge = new Edge(u,v,weight);
+	    edge.changeHalfEdge(new Edge(v,u,weight));
+	    uIV.adjacencyListInsert(edge);
+	    vIV.adjacencyListInsert(edge);
+	    vertexHashTable.insert(u,uIV);
+	    vertexHashTable.insert(v,vIV);
+	    numberOfVertexes+=2;
 	}
     }
 
