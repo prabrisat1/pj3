@@ -189,25 +189,28 @@ public class WUGraph {
    * Running time:  O(d), where d is the degree of "vertex".
    */
   public Neighbors getNeighbors(Object vertex){
-  		Entry a = vertexHashTable.find(vertex);
-  		InternalVertex iv = (InternalVertex) a.value();
-  		DList adjacencyList = iv.getAdjacencyList();
-  		DListNode edgeTracker = adjacencyList.gethead();
-  		Object[] neighborList = new Object[iv.getAdjacencyListSize()];
-  		int[] weightList = new int[iv.getAdjacencyListSize()];
-  		for(int n = 0; n<iv.getAdjacencyListSize(); n++){
-  			try{
-  				Edge edge1 = (Edge) edgeTracker.item();
-  				neighborList[n] = edge1;
-  				VertexPair vpair = new VertexPair(edge1.getStart(), edge1.getEnd());
-  				Entry b = edgeHashTable.find(vpair);
-  				int weight1 = (Integer)b.value();
-  				weightList[n] = weight1;
-  			}catch(InvalidNodeException error){
-  			}
-  		}
-  		Neighbors result = new Neighbors(neighborList, weightList);
-  		return result;
+      Entry a = vertexHashTable.find(vertex);
+      InternalVertex iv = (InternalVertex) a.value();
+      DList adjacencyList = iv.getAdjacencyList();
+      if(iv.getAdjacencyListSize() == 0) { //nothing adjacent, no neighbors
+	  return null;
+      }
+      DListNode edgeTracker = adjacencyList.gethead();
+      Object[] neighborList = new Object[iv.getAdjacencyListSize()];
+      int[] weightList = new int[iv.getAdjacencyListSize()];
+      for(int n = 0; n<iv.getAdjacencyListSize(); n++){
+	  try{
+	      Edge edge1 = (Edge) edgeTracker.item();
+	      neighborList[n] = edge1;
+	      VertexPair vpair = new VertexPair(edge1.getStart(), edge1.getEnd());
+	      Entry b = edgeHashTable.find(vpair);
+	      int weight1 = (Integer)b.value();
+	      weightList[n] = weight1;
+	  }catch(InvalidNodeException error){
+	  }
+      }
+      Neighbors result = new Neighbors(neighborList, weightList);
+      return result;
   }
   /**
    * addEdge() adds an edge (u, v) to the graph.  If either of the parameters
@@ -274,7 +277,7 @@ public class WUGraph {
     public int weight(Object u, Object v) {
 	VertexPair vPair = new VertexPair(u,v);
 	Entry entry = edgeHashTable.find(vPair);
-	if(entry.value() == null) {
+	if(entry == null || entry.value() == null) {
 	    return 0;
 	}
 	else {
