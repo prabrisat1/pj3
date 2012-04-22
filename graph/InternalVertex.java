@@ -26,6 +26,7 @@ public class InternalVertex {
 	public int getAdjacencyListSize(){
 		return adjacencyList.getSize();
 	}
+    //insert an edge into the adjacency list
     public void adjacencyListInsert(Object a) {
 	adjacencyList.insertBack(a);
     }
