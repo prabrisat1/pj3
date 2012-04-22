@@ -26,6 +26,7 @@ public class WUGraph {
     public WUGraph() {
     	edgeHashTable = new HashTableChained();
     	vertexHashTable = new HashTableChained();
+	vertexList = new DList();
     	numberOfEdges = 0;	
     	numberOfVertexes = 0;	
     }
@@ -88,11 +89,11 @@ public class WUGraph {
    */
   public void addVertex(Object vertex){
 	  if(vertexHashTable.find(vertex) == null) {
-  			InternalVertex iVertex = new InternalVertex(vertex);
-		    Entry a = vertexHashTable.insert(vertex, iVertex); 
-		    //a is never used, only there because the hashtable insert method returns an entry
-		    numberOfVertexes++;
-		    vertexList.insertBack(vertex); //used in getVertices() only
+	      InternalVertex iVertex = new InternalVertex(vertex);
+	      Entry a = vertexHashTable.insert(vertex, iVertex); 
+	      //a is never used, only there because the hashtable insert method returns an entry
+	      numberOfVertexes++;
+	      vertexList.insertBack(vertex); //used in getVertices() only
 	  }	
   }
     
