@@ -26,4 +26,7 @@ public class InternalVertex {
 	public int getAdjacencyListSize(){
 		return adjacencyList.getSize();
 	}
+    public void adjacencyListInsert(Object a) {
+	adjacencyList.insertBack(a);
+    }
 }
