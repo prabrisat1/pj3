@@ -75,9 +75,6 @@ public class WUGraph {
       }catch(InvalidNodeException a){
 	  System.err.println(a);
       }
-      /*for(int i = 0; i < numberOfVertexes-1; i++) {
-	  System.out.println(result[i]);
-      }*/
       return result;
   }
 
@@ -108,6 +105,7 @@ public class WUGraph {
   public void removeVertex(Object vertex){
       Entry a = vertexHashTable.remove(vertex);
       if(a != null){
+	  numberOfVertexes--;
 	  InternalVertex iVertex = (InternalVertex) a.value();
 	  DList adjacencyList = iVertex.getAdjacencyList();
 	  DListNode edgeTracker = adjacencyList.gethead();
