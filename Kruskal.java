@@ -67,6 +67,8 @@ public class Kruskal {
 			// opposite to this in the current edge has
 			// already been visited, the edge is already
 			// added).
+
+                        //System.out.println("Vertex 1: " + vertices[i].toString() + ", Vertex 2: " + n.neighborList[j]);
                         if(n.neighborList[j] == null){
                             continue;
                         }
