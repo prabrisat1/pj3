@@ -21,7 +21,7 @@ public class DList extends List {
    **/
 
   protected DListNode head;
-    protected int size= 0;
+    public int size= 0;
 
   /* DList invariants:
    *  1)  head != null.
@@ -61,6 +61,25 @@ public class DList extends List {
       head = this.newNode(null, null, null,null );
       head.next = head;
       head.prev = head;
+  }
+  
+  /*
+   * remove(Object item) removes the node of the item which was inputted
+   */
+  public void remove(Object item){
+	  System.out.println("got to remove stmt");
+	  DListNode tracker = this.head;
+	  for(int n =0; n<this.size; n++){
+		  try{
+			  if(tracker.item.equals(item)){
+				System.out.println("removing node");
+				tracker.remove();
+				this.size --;
+			  }
+			  tracker = (DListNode)tracker.next();
+		  }catch(InvalidNodeException error){
+		  }
+	  }
   }
   
   /**

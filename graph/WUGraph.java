@@ -105,45 +105,62 @@ public class WUGraph {
   public void removeVertex(Object vertex){
       Entry a = vertexHashTable.remove(vertex);
       if(a != null){
-	  numberOfVertexes--;
-	  InternalVertex iVertex = (InternalVertex) a.value();
-	  DList adjacencyList = iVertex.getAdjacencyList();
-	  DListNode edgeTracker = adjacencyList.gethead();
-	  for(int n = 0; n < iVertex.getAdjacencyListSize(); n++){
-	      try{
-		  Edge e1 = (Edge) edgeTracker.item();
-		  if(e1.isSelfEdge()){
-		      edgeTracker.remove();
-		      edgeHashTable.remove(new VertexPair(vertex,vertex));
-		      numberOfEdges --;
-		  }else{
-		      Edge e2 = e1.getHalfEdge();
-		      edgeTracker.remove();
-		      numberOfEdges --;
-		      Object e2end = e2.getEnd();
-		      Entry b = vertexHashTable.find(e2end);
-		      InternalVertex iVertex2 = (InternalVertex) b.value();
-		      DList adjacencyList2 = iVertex2.getAdjacencyList();
-		      DListNode edgeTracker2 = adjacencyList2.gethead();
-		      for(int m = 0; m<iVertex2.getAdjacencyListSize(); m++){
-			  try{
-			      Edge e3 = (Edge) edgeTracker.item();
-			      if(e3.equals(e2)){
-				  edgeTracker2.remove();
-				  edgeHashTable.remove(new VertexPair(e3.vert1,e3.vert2));
-				  numberOfEdges --;
-				  break;
-			      }
-			      edgeTracker2 = (DListNode) edgeTracker2.next();
-			  }catch(InvalidNodeException error){
-			  }
-		      }
-		  }
-		  edgeTracker = (DListNode) edgeTracker.next();
-	      }catch(InvalidNodeException error){
-	      }
-	  }
-      }  
+    	  //removing vertex from vertexList
+    	  System.out.println(vertexList.toString());
+    	  DListNode tracker = (DListNode) vertexList.front();
+    	  for(int n=0; n<vertexList.size; n++){
+    		  try{
+    			  if((tracker.item()).equals(vertex)){
+    	        	  System.out.println("got here1");
+    				  tracker.remove();
+    				  vertexList.size --;
+    			  }
+    		  }catch(InvalidNodeException error){
+    		  }
+    	  }
+    	  numberOfVertexes--;
+    	  
+    	  //removing edges from adjacency lists
+    	  if(a.value() != null){
+    		  InternalVertex iVertex = (InternalVertex) a.value();
+    		  DList adjacencyList = iVertex.getAdjacencyList();
+    		  DListNode edgeTracker = (DListNode) adjacencyList.front();
+    		  for(int n = 0; n < iVertex.getAdjacencyListSize(); n++){
+    			  try{
+    				  Edge e1 = (Edge) edgeTracker.item();
+    				  if(e1.isSelfEdge()){
+    					  edgeTracker.remove();
+    					  edgeHashTable.remove(new VertexPair(vertex,vertex));
+    					  numberOfEdges --;
+    				  }else{
+    					  Edge e2 = e1.getHalfEdge();
+    					  edgeTracker.remove();
+    					  numberOfEdges --;
+    					  Object e2end = e2.getEnd();
+    					  Entry b = vertexHashTable.find(e2end);
+    					  InternalVertex iVertex2 = (InternalVertex) b.value();
+    					  DList adjacencyList2 = iVertex2.getAdjacencyList();
+    					  DListNode edgeTracker2 = (DListNode) adjacencyList2.front();
+    					  for(int m = 0; m<iVertex2.getAdjacencyListSize(); m++){
+    						  try{
+    							  Edge e3 = (Edge) edgeTracker.item();
+    							  if(e3.equals(e2)){
+    								  edgeTracker2.remove();
+    								  edgeHashTable.remove(new VertexPair(e3.vert1,e3.vert2));
+    								  numberOfEdges --;
+    								  break;
+    							  }
+    							  edgeTracker2 = (DListNode) edgeTracker2.next();
+    						  }catch(InvalidNodeException error){
+    						  }
+    					  }
+    				  }
+    				  edgeTracker = (DListNode) edgeTracker.next();
+    			  }catch(InvalidNodeException error){
+    			  }
+    		  }
+    	  }
+      }
   }
 
   /**
@@ -196,7 +213,7 @@ public class WUGraph {
       if(iv.getAdjacencyListSize() == 0) { //nothing adjacent, no neighbors
 	  return null;
       }
-      DListNode edgeTracker = adjacencyList.gethead();
+      DListNode edgeTracker = (DListNode) adjacencyList.front();
       Object[] neighborList = new Object[iv.getAdjacencyListSize()];
       int[] weightList = new int[iv.getAdjacencyListSize()];
       for(int n = 0; n<iv.getAdjacencyListSize(); n++){

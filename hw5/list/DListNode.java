@@ -48,7 +48,7 @@ public class DListNode extends ListNode {
   public boolean isValidNode() {
     return myList != null;
   }
-
+  
   /**
    *  next() returns the node following this node.  If this node is invalid,
    *  throws an exception.
