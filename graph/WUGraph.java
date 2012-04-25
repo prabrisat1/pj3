@@ -106,15 +106,14 @@ public class WUGraph {
       Entry a = vertexHashTable.remove(vertex);
       if(a != null){
     	  //removing vertex from vertexList
-    	  System.out.println(vertexList.toString());
     	  DListNode tracker = (DListNode) vertexList.front();
     	  for(int n=0; n<vertexList.size; n++){
     		  try{
     			  if((tracker.item()).equals(vertex)){
-    	        	  System.out.println("got here1");
     				  tracker.remove();
     				  vertexList.size --;
     			  }
+    			  tracker = (DListNode) tracker.next();
     		  }catch(InvalidNodeException error){
     		  }
     	  }
@@ -136,8 +135,8 @@ public class WUGraph {
     					  Edge e2 = e1.getHalfEdge();
     					  edgeTracker.remove();
     					  numberOfEdges --;
-    					  Object e2end = e2.getEnd();
-    					  Entry b = vertexHashTable.find(e2end);
+    					  Object e2start = e2.getStart();
+    					  Entry b = vertexHashTable.find(e2start);
     					  InternalVertex iVertex2 = (InternalVertex) b.value();
     					  DList adjacencyList2 = iVertex2.getAdjacencyList();
     					  DListNode edgeTracker2 = (DListNode) adjacencyList2.front();

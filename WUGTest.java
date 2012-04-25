@@ -200,16 +200,6 @@ public class WUGTest {
                ((wuVertArray[2] != vertArray[1]) &&
                 (wuVertArray[2] != vertArray[2]) &&
                 (wuVertArray[2] != vertArray[4]))) {
-    	System.out.println("--------------wuVertArray----------------");
-    	System.out.println(wuVertArray[0]);
-    	System.out.println(wuVertArray[1]);
-    	System.out.println(wuVertArray[2]);
-    	System.out.println("--------------vertArray------------------");
-    	System.out.println(vertArray[0]);
-    	System.out.println(vertArray[1]);
-    	System.out.println(vertArray[2]);
-    	System.out.println(vertArray[3]);
-    	System.out.println(vertArray[4]);
       System.out.println("getVertices() returns array containing " +
                          "wrong objects.");
       getDeduction = 1;
