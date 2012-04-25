@@ -130,7 +130,9 @@ public class WUGraph {
 		      Edge e1 = (Edge) edgeTracker.item();
 		      if(e1.isSelfEdge()){
 			  edgeTracker.remove();
-			  e1.getHalfEdge().node.remove();
+			  if(e1.getHalfEdge().node != null) {
+			      e1.getHalfEdge().node.remove();
+			  }
 			  edgeHashTable.remove(new VertexPair(vertex,vertex));
 			  numberOfEdges --;
 		      }else{
@@ -222,7 +224,12 @@ public class WUGraph {
       for(int n = 0; n<iv.getAdjacencyListSize(); n++){
 	  try{
 	      Edge edge1 = (Edge) edgeTracker.item();
-	      neighborList[n] = edge1;
+	      if(edge1.getStart().equals(vertex)) {
+		  neighborList[n] = edge1.getEnd();
+	      }
+	      else {
+		  neighborList[n] = edge1.getStart();
+	      }
 	      VertexPair vpair = new VertexPair(edge1.getStart(), edge1.getEnd());
 	      Entry b = edgeHashTable.find(vpair);
 	      int weight1 = ((Edge)b.value()).getWeight();
@@ -255,6 +262,13 @@ public class WUGraph {
 	    if(old != null) {
 		numberOfEdges--;
 		oldEdge = (Edge)old.value();
+		try {
+		    oldEdge.node.remove();
+		    oldEdge.getHalfEdge().node.remove();
+		}
+		catch(InvalidNodeException e) {
+		    System.err.println(e);
+		}
 		edge1 = oldEdge;
 		edge1.weight = weight;
 		edge2 = edge1.getHalfEdge();
