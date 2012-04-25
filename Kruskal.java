@@ -24,9 +24,6 @@ public class Kruskal {
 	//	-- Store edges in a list, probably a singly linked list
 	// - Sort the edges with a sorting algorithm
 	// - Use disjoint sets to find edges of minimum spanning tree
-	//
-	// Probably should read G&T's section Kruskal to get a better idea
-	// of what to do
 	
 
 	// Make a new empty graph, T, for the minimum spanning tree
@@ -70,6 +67,9 @@ public class Kruskal {
 			// opposite to this in the current edge has
 			// already been visited, the edge is already
 			// added).
+                        if(n.neighborList[j] == null){
+                            continue;
+                        }
 			if(visited.find(n.neighborList[j]) == null){
 				edges.enqueue(new KruskalEdge(vertices[i], n.neighborList[j], n.weightList[j]));
 			}
