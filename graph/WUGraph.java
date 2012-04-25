@@ -256,20 +256,17 @@ public class WUGraph {
 	    InternalVertex uIV = new InternalVertex(u);
 	    InternalVertex vIV = new InternalVertex(v);
 	    if(uEntry != null) {
-		numberOfVertexes--;
+		Edge edge1 = new Edge(u,v,weight);
 		uIV = (InternalVertex)uEntry.value();
+		uIV.adjacencyListInsert(edge1);
+		vertexHashTable.insert(u,uIV);
 	    }
 	    if(vEntry != null) {
-		numberOfVertexes--;
+		Edge edge2 = new Edge(v,u,weight);
 		vIV = (InternalVertex)vEntry.value();
+		vIV.adjacencyListInsert(edge2);
+		vertexHashTable.insert(v,vIV);
 	    }
-	    Edge edge = new Edge(u,v,weight);
-	    edge.changeHalfEdge(new Edge(v,u,weight));
-	    uIV.adjacencyListInsert(edge);
-	    vIV.adjacencyListInsert(edge);
-	    vertexHashTable.insert(u,uIV);
-	    vertexHashTable.insert(v,vIV);
-	    numberOfVertexes+=2;
 	}
     }
 
