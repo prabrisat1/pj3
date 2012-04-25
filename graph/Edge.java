@@ -40,6 +40,9 @@ public class Edge {
   }
   
   public boolean isSelfEdge(){
-	  return this == this.halfEdge;
+      return this.equals(this.halfEdge);
   }
+    public boolean equals(Edge e) {
+	return (vert1.equals(e.vert1) && vert2.equals(e.vert2) && weight == e.weight);
+    }
 }
