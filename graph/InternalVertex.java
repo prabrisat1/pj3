@@ -28,6 +28,6 @@ public class InternalVertex {
 	}
     //insert an edge into the adjacency list
     public void adjacencyListInsert(Object a) {
-	adjacencyList.insertBack(a);
+	((Edge)a).node = adjacencyList.insertBackWithReference(a);
     }
 }

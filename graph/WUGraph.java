@@ -110,55 +110,58 @@ public class WUGraph {
     	  //removing vertex from vertexList
     	  DListNode tracker = (DListNode) vertexList.front();
     	  for(int n=0; n<vertexList.size; n++){
-    		  try{
-    			  if((tracker.item()).equals(vertex)){
-    				  tracker.remove();
-    				  vertexList.size --;
-    			  }
-    			  tracker = (DListNode) tracker.next();
-    		  }catch(InvalidNodeException error){
-    		  }
+	      try{
+		  if((tracker.item()).equals(vertex)){
+		      tracker.remove();
+		      vertexList.size --;
+		  }
+		  tracker = (DListNode) tracker.next();
+	      }catch(InvalidNodeException error){
+	      }
     	  }
     	  
     	  //removing edges from adjacency lists
     	  if(a.value() != null){
-    		  InternalVertex iVertex = (InternalVertex) a.value();
-    		  DList adjacencyList = iVertex.getAdjacencyList();
-    		  DListNode edgeTracker = (DListNode) adjacencyList.front();
-    		  for(int n = 0; n < iVertex.getAdjacencyListSize(); n++){
-    			  try{
-    				  Edge e1 = (Edge) edgeTracker.item();
-    				  if(e1.isSelfEdge()){
-    					  edgeTracker.remove();
-    					  edgeHashTable.remove(new VertexPair(vertex,vertex));
-    					  numberOfEdges --;
-    				  }else{
-    					  Edge e2 = e1.getHalfEdge();
-    					  edgeTracker.remove();
-    					  numberOfEdges --;
-    					  Object e2start = e2.getStart();
-    					  Entry b = vertexHashTable.find(e2start);
-    					  InternalVertex iVertex2 = (InternalVertex) b.value();
-    					  DList adjacencyList2 = iVertex2.getAdjacencyList();
-    					  DListNode edgeTracker2 = (DListNode) adjacencyList2.front();
-    					  for(int m = 0; m<iVertex2.getAdjacencyListSize(); m++){
-    						  try{
-    							  Edge e3 = (Edge) edgeTracker.item();
-    							  if(e3.equals(e2)){
-    								  edgeTracker2.remove();
-    								  edgeHashTable.remove(new VertexPair(e3.vert1,e3.vert2));
-    								  numberOfEdges --;
-    								  break;
-    							  }
-    							  edgeTracker2 = (DListNode) edgeTracker2.next();
-    						  }catch(InvalidNodeException error){
-    						  }
-    					  }
-    				  }
-    				  edgeTracker = (DListNode) edgeTracker.next();
-    			  }catch(InvalidNodeException error){
-    			  }
-    		  }
+	      InternalVertex iVertex = (InternalVertex) a.value();
+	      DList adjacencyList = iVertex.getAdjacencyList();
+	      DListNode edgeTracker = (DListNode) adjacencyList.front();
+	      for(int n = 0; n < iVertex.getAdjacencyListSize(); n++){
+		  try{
+		      Edge e1 = (Edge) edgeTracker.item();
+		      if(e1.isSelfEdge()){
+			  edgeTracker.remove();
+			  e1.getHalfEdge().node.remove();
+			  edgeHashTable.remove(new VertexPair(vertex,vertex));
+			  numberOfEdges --;
+		      }else{
+			  Edge e2 = e1.getHalfEdge();
+			  edgeTracker.remove();
+			  e2.node.remove();
+			  numberOfEdges --;
+			  Object e2start = e2.getStart();
+			  Entry b = vertexHashTable.find(e2start);
+			  InternalVertex iVertex2 = (InternalVertex) b.value();
+			  DList adjacencyList2 = iVertex2.getAdjacencyList();
+			  DListNode edgeTracker2 = (DListNode) adjacencyList2.front();
+			  for(int m = 0; m<iVertex2.getAdjacencyListSize(); m++){
+			      try{
+				  Edge e3 = (Edge) edgeTracker.item();
+				  if(e3.equals(e2)){
+				      edgeTracker2.remove();
+				      e3.getHalfEdge().node.remove();
+				      edgeHashTable.remove(new VertexPair(e3.vert1,e3.vert2));
+				      numberOfEdges --;
+				      break;
+				  }
+				  edgeTracker2 = (DListNode) edgeTracker2.next();
+			      }catch(InvalidNodeException error){
+			      }
+			  }
+		      }
+		      edgeTracker = (DListNode) edgeTracker.next();
+		  }catch(InvalidNodeException error){
+		  }
+	      }
     	  }
       }
   }
@@ -222,7 +225,7 @@ public class WUGraph {
 	      neighborList[n] = edge1;
 	      VertexPair vpair = new VertexPair(edge1.getStart(), edge1.getEnd());
 	      Entry b = edgeHashTable.find(vpair);
-	      int weight1 = (Integer)b.value();
+	      int weight1 = ((Edge)b.value()).getWeight();
 	      weightList[n] = weight1;
 	  }catch(InvalidNodeException error){
 	  }
@@ -244,10 +247,19 @@ public class WUGraph {
 	if(vertexHashTable.find(u) != null && vertexHashTable.find(v) != null) {
 	    VertexPair vPair = new VertexPair(u,v);
 	    Entry old = edgeHashTable.remove(vPair);
+	    Edge edge1 = new Edge(u,v,weight);
+	    Edge edge2 = new Edge(v,u,weight);
+	    edge1.changeHalfEdge(edge2);
+	    edge2.changeHalfEdge(edge1);
+	    Edge oldEdge = null;
 	    if(old != null) {
 		numberOfEdges--;
+		oldEdge = (Edge)old.value();
+		edge1 = oldEdge;
+		edge1.weight = weight;
+		edge2 = edge1.getHalfEdge();
 	    }
-	    edgeHashTable.insert(vPair,weight);
+	    edgeHashTable.insert(vPair,edge1);
 	    numberOfEdges++;
 
 	    //update adjacency list of the vertices
@@ -255,10 +267,7 @@ public class WUGraph {
 	    Entry vEntry = vertexHashTable.remove(v);
 	    InternalVertex uIV = new InternalVertex(u);
 	    InternalVertex vIV = new InternalVertex(v);
-	    Edge edge1 = new Edge(u,v,weight);
-	    Edge edge2 = new Edge(v,u,weight);
-	    edge1.changeHalfEdge(edge2);
-	    edge2.changeHalfEdge(edge1);
+	    
 	    if(uEntry != null) {
 		uIV = (InternalVertex)uEntry.value();
 		uIV.adjacencyListInsert(edge1);
@@ -285,8 +294,21 @@ public class WUGraph {
 	if(vertexHashTable.find(u) != null && vertexHashTable.find(v) != null) {
 	    VertexPair vPair = new VertexPair(u,v);
 	    Entry old = edgeHashTable.remove(vPair);
+	    Edge oldEdge = null;
 	    if(old != null) {
 		numberOfEdges--;
+		oldEdge = (Edge)old.value();
+	    }
+	    try {
+		if(oldEdge != null && oldEdge.node != null) {
+		    oldEdge.node.remove();
+		}
+		if(oldEdge != null && oldEdge.getHalfEdge() != null && oldEdge.getHalfEdge().node != null) {
+		    oldEdge.getHalfEdge().node.remove();
+		}
+	    }
+	    catch(InvalidNodeException e) {
+		System.err.println(e);
 	    }
 	}
     }
@@ -325,7 +347,7 @@ public class WUGraph {
 	    return 0;
 	}
 	else {
-	    return (Integer)entry.value();
+	    return ((Edge)entry.value()).getWeight();
 	}
     }
 }
