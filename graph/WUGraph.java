@@ -105,6 +105,8 @@ public class WUGraph {
   public void removeVertex(Object vertex){
       Entry a = vertexHashTable.remove(vertex);
       if(a != null){
+    	  numberOfVertexes--;
+    	  
     	  //removing vertex from vertexList
     	  DListNode tracker = (DListNode) vertexList.front();
     	  for(int n=0; n<vertexList.size; n++){
@@ -117,7 +119,6 @@ public class WUGraph {
     		  }catch(InvalidNodeException error){
     		  }
     	  }
-    	  numberOfVertexes--;
     	  
     	  //removing edges from adjacency lists
     	  if(a.value() != null){

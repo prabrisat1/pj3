@@ -252,6 +252,7 @@ public class WUGTest {
     g.addVertex(vertArray[9]);
 
     result = g.degree(vertArray[3]);
+    
     if (result != 0) {
       System.out.println("degree(vertex 3) returns " + result +
                          " but should return 0.");
@@ -268,6 +269,7 @@ public class WUGTest {
       isDeduction = 1;
     }
     result = g.weight(vertArray[3], vertArray[7]);
+    
     if (result != 0) {
       System.out.println("weight(vertex 3, vertex 7) returns " + result +
                          " but should return 0.");
@@ -339,7 +341,7 @@ public class WUGTest {
                          " but should return 0.");
       degreeDeduction = 1;
     }
-
+    
     System.out.println("Adding edge (3, 3) with weight 7.");
     g.addEdge(vertArray[3], vertArray[3], 7);
     result = g.edgeCount();
@@ -372,6 +374,9 @@ public class WUGTest {
       degreeDeduction = 1;
     }
 
+
+    System.out.println(g.vertexCount());
+    
     System.out.println("Adding edge (7, 3) with weight 9.");
     g.addEdge(vertArray[7], vertArray[3], 9);
     result = g.edgeCount();
@@ -534,9 +539,14 @@ public class WUGTest {
       remEDeduction = 1;
     }
 
+    System.out.println(g.vertexCount());
+    
     System.out.println("Removing vertex 3.");
     g.removeVertex(vertArray[3]);
     result = g.vertexCount();
+    
+    System.out.println(result);
+    
     if (result != 9) {
       System.out.println("vertexCount() returns " + result +
                          " but should return 9.");
