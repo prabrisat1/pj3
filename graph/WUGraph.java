@@ -255,14 +255,16 @@ public class WUGraph {
 	    Entry vEntry = vertexHashTable.remove(v);
 	    InternalVertex uIV = new InternalVertex(u);
 	    InternalVertex vIV = new InternalVertex(v);
+	    Edge edge1 = new Edge(u,v,weight);
+	    Edge edge2 = new Edge(v,u,weight);
+	    edge1.changeHalfEdge(edge2);
+	    edge2.changeHalfEdge(edge1);
 	    if(uEntry != null) {
-		Edge edge1 = new Edge(u,v,weight);
 		uIV = (InternalVertex)uEntry.value();
 		uIV.adjacencyListInsert(edge1);
 		vertexHashTable.insert(u,uIV);
 	    }
 	    if(vEntry != null) {
-		Edge edge2 = new Edge(v,u,weight);
 		vIV = (InternalVertex)vEntry.value();
 		vIV.adjacencyListInsert(edge2);
 		vertexHashTable.insert(v,vIV);
