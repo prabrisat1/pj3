@@ -11,6 +11,7 @@ public class Edge {
   public Object vert2; // Vertex 2
   public int weight; // The weight of the edge
   public Edge halfEdge; //the edge that is paired with this one except opposite
+    public hw5.list.DListNode node;
 
   public Edge(Object v1, Object v2, int w){
       vert1 = v1;

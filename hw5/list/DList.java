@@ -151,7 +151,26 @@ public class DList extends List {
       // Your solution here.  Similar to Homework 4, but now you need to specify
     //   the `list' field (second parameter) as well.
   }
-
+    
+    public DListNode insertBackWithReference(Object item) {
+	DListNode node = this.newNode(item, this, null, null);
+	if (size == 0){
+	    node.prev = head;
+	    node.next = head;
+	    head.prev = node;
+	    head.next = node;
+	    size ++;
+	}else{
+	    node.next = head;
+	    DListNode a = head.prev;
+	    a.next = node;
+	    node.prev = a;
+	    head.prev = node;
+	    size ++;
+	}
+	return node;
+    }
+    
   /**
    *  front() returns the node at the front of this DList.  If the DList is
    *  empty, return an "invalid" node--a node with the property that any
