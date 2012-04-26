@@ -375,7 +375,7 @@ public class WUGTest {
     }
 
 
-    System.out.println(g.vertexCount());
+    // System.out.println(g.vertexCount());
     
     System.out.println("Adding edge (7, 3) with weight 9.");
     g.addEdge(vertArray[7], vertArray[3], 9);
@@ -539,13 +539,13 @@ public class WUGTest {
       remEDeduction = 1;
     }
 
-    System.out.println(g.vertexCount());
+    //System.out.println(g.vertexCount());
     
     System.out.println("Removing vertex 3.");
     g.removeVertex(vertArray[3]);
     result = g.vertexCount();
     
-    System.out.println(result);
+    //System.out.println(result);
     
     if (result != 9) {
       System.out.println("vertexCount() returns " + result +
