@@ -306,7 +306,7 @@ public class HashTableChained implements Dictionary {
 
     }
 
-    public void resize() {
+    public void resizeStuff() {
 	N = N*2;
 	List[] tempHashTable = hTable;
 	hTable = new List[N];
