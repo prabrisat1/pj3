@@ -199,16 +199,21 @@ public class WUGraph {
 	DListNode edgeTracker = (DListNode) adjacencyList.front();
 	Object[] neighborList = new Object[iv.getAdjacencyListSize()];
 	int[] weightList = new int[iv.getAdjacencyListSize()];
-	for(int n = 0; n<iv.getAdjacencyListSize(); n++){
-	    try{
+	int n = 0;
+	try {
+	    while(edgeTracker.isValidNode()) {
+		DListNode temp = (DListNode)edgeTracker.next();
 		Edge edge1 = (Edge) edgeTracker.item();
 		neighborList[n] = edge1.getEnd();
 		VertexPair vpair = new VertexPair(edge1.getStart(), edge1.getEnd());
 		Entry b = edgeHashTable.find(vpair);
 		int weight1 = ((Edge)b.value()).getWeight();
 		weightList[n] = weight1;
-	    }catch(InvalidNodeException error){
+
+		edgeTracker = temp;
+		n++;
 	    }
+	}catch(InvalidNodeException error){
 	}
 	Neighbors result = new Neighbors(neighborList, weightList);
 	return result;
