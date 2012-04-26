@@ -159,6 +159,7 @@ public class DListNode extends ListNode {
     //   "this" is null.  Remember that this node's "myList" field tells you
     //   what DList it's in.
     // Make this node an invalid node, so it cannot be used to corrupt myList.
+	myList.size--;
     myList = null;
     // Set other references to null to improve garbage collection.
     next = null;
