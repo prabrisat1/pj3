@@ -10,5 +10,14 @@ Sean Hickey - cs61b-jk
 
 Kruskal's Algorithm
 
+This implementation of Kruskal's algorithm makes use of a variety of data structures. A new graph is made that will store the minimum spanning tree. Edges from the original graph are stored in a queue, implemented with queues, which will be sorted using mergesort, which uses the Comparable interface to compare the weights of edges. Vertices are stored in an object array, which is how they are returned from the getVertices() method in the graph. A hash table is used to store the unique integer IDs for the the vertices when they are used in the disjoint sets. A dictionary is made to mark vertices as visited during the upcoming edge finding algorithm. Since the vertices don't necessarily have any sort of visited field, at least one that we know about, we need to keep track of visited vertices with an external data structure. To keep the cost of lookup as low as possible, we need a hash table. While the space usage may be high, it is the best option for speed, and after adding all of the edges, the reference is immediately set to null to speed up garbage collection. Disjoint sets are used to check to see if a path between two vertices already exists on the graph.
 
+The following is an overview of the algorithms used, and a discussion of the running time.
 
+As vertices are added to the new graph, they are assigned a unique ID which is stored in the hash table. We then iterate through the neighbors to find the edges, adding the edge to the queue if it is found. Since it is a directed graph, (u,v) and (v,u) are duplicates, so the vertex, whose neighbors we're looking throug, is marked as visited afterwards. This part runs in O(|V| + |E|) time, since it goes through each vertex and has to go through each edge. However, the |E| apart of it is overpowered by another |E| term later on as we'll see.
+
+Using the queue's mergesort method, the edges are sorted by weight. Mergesort runs in O(nlogn) time, and since our n here is |E|, it runs in O(|E|log|E|) time. Since |E|log|E| dominates |E| asymptotically, the total running time for the algorithms thus far is O(|V| + |E|log|E|).
+
+The final part is to go through the sorted queue of edges and use disjoint sets to check to see if a path exists between two vertices. If the vertices of an edge currently being evaluated already have a path between them, it is not added, other wise it is added to the list and the vertices are unioned. The unioning takes O(1), and there are O(|E|) unions. Since we are using find, which takes O(logu) time, where u is the number of unions, the running time should be in O(log|E|) for find. However, all of these terms vanish asymptotically compared to the other terms.
+
+Thus, the running time of this implementation is in O(|V| + |E|log|E|).
