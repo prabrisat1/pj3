@@ -82,14 +82,7 @@ public class HashTableChained implements Dictionary {
 	hTable = new List[N];    
     }
 
-    /**
-     *  Converts a hash code in the range Integer.MIN_VALUE...Integer.MAX_VALUE
-     *  to a value in the range 0...(size of hash table) - 1.
-     *
-     *  This function should have package protection (so we can test it), and
-     *  should be used by insert, find, and remove.
-     **/
-
+    // Returns x mod y
     private int mod(int x, int y){
 	int result = (x % y);
 	if (result < 0){
@@ -98,6 +91,14 @@ public class HashTableChained implements Dictionary {
 
 	return result;
     }
+
+    /**
+     *  Converts a hash code in the range Integer.MIN_VALUE...Integer.MAX_VALUE
+     *  to a value in the range 0...(size of hash table) - 1.
+     *
+     *  This function should have package protection (so we can test it), and
+     *  should be used by insert, find, and remove.
+     **/
 
     int compFunction(int code) {
 	return mod(mod(a*code + b, p), N);
@@ -230,6 +231,41 @@ public class HashTableChained implements Dictionary {
 	}
 
    	return null;
+    }
+
+    public void resize(){
+        // If the load factor is too big, expand
+        if((size*1.0)/N >= 1){
+            // Get all of the entries
+            
+            // Initialize the new table
+	    N = primeGreaterThan(2*N);
+ 	    p = primeGreaterThan(2*N);
+	    a = (int) (Math.random() * p);
+	    b = (int) (Math.random() * p);
+	    hTable = new List[N];
+
+            // Put all of the items in it
+
+        }
+
+        // If the load factor is to small, shrink
+        else((size*1.0)/N <= .25){
+            // Get all of the entries
+
+            // Initialize the new table
+	    N = primeGreaterThan(N/2);
+ 	    p = primeGreaterThan(2*N);
+	    a = (int) (Math.random() * p);
+	    b = (int) (Math.random() * p);
+	    hTable = new List[N];
+
+            // Put all of the items in it
+            
+        }
+        
+        // Otherwise do nothing
+
     }
 
     /**
