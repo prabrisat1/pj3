@@ -152,6 +152,9 @@ public class HashTableChained implements Dictionary {
 	hTable[i].insertBack(e);
 	this.size++;
 
+	if(this.size/N > .75) { //loadFactor
+	    resize();
+	}
 
    	return e;
     }
@@ -266,4 +269,25 @@ public class HashTableChained implements Dictionary {
 	System.out.println("Load Factor n/N: " + this.size + "/" + this.N + " = " + ((float)this.size)/this.N);
 
     }
+
+    public void resize() {
+	N = N*2;
+	List[] tempHashTable = hTable;
+	hTable = new List[N];
+	for(int i = 0; i < hTable.length; i++) {
+	    List lst = tempHashTable[i];
+	    try { //do or do not, there is no try
+		ListNode currentNode = lst.front();
+		while(currentNode.isValidNode()) {
+		    Entry item = (Entry)currentNode.item();
+		    insert(item.key(),item.value());
+		    currentNode = currentNode.next();
+		}
+	    }
+	    catch(InvalidNodeException e) {
+		System.err.println(e);
+	    }
+	}
+    }
+		    
 }
