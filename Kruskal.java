@@ -18,13 +18,6 @@ public class Kruskal {
    * of the WUGraph g.  The original WUGraph g is NOT changed.
    */
   public static WUGraph minSpanTree(WUGraph g){
-	// - Make new empty graph
-	// - Get vertices, add them all to the new graph
-	// - Use getNeighbors() to obtain all neighbors, get all edges from them
-	//	-- Store edges in a list, probably a singly linked list
-	// - Sort the edges with a sorting algorithm
-	// - Use disjoint sets to find edges of minimum spanning tree
-	
 
 	// Make a new empty graph, T, for the minimum spanning tree
 	WUGraph T = new WUGraph();
@@ -49,7 +42,7 @@ public class Kruskal {
 	// speed, and after adding all of the edges, the reference
 	// is immediately set to null to speed up garbage collection.
 	Dictionary visited = new HashTableChained(); 
-	
+
 	for(int i = 0; i < vertices.length; i++){
 		// Add the vertices from the original graph into T
 		T.addVertex(vertices[i]);
@@ -68,13 +61,16 @@ public class Kruskal {
 			// already been visited, the edge is already
 			// added).
 
-                        //System.out.println("Vertex 1: " + vertices[i].toString() + ", Vertex 2: " + n.neighborList[j]);
+                        //System.out.println("Vertex 1: " + vertices[i].toString() + ", Vertex 2: " + n.neighborList[j] + ", weight: " + n.weightList[j]);
                         if(n.neighborList[j] == null){
                             continue;
                         }
 			if(visited.find(n.neighborList[j]) == null){
 				edges.enqueue(new KruskalEdge(vertices[i], n.neighborList[j], n.weightList[j]));
 			}
+
+                //System.out.println(edges);
+
 		}
 
 		// Mark this vertex as visited (to prevent duplicate edges
@@ -96,7 +92,6 @@ public class Kruskal {
 	// Use disjoint sets to find edges of minimum spanning tree
 	DisjointSets minSpanSet = new DisjointSets(vertices.length);
 
-
 	// Go through the sorted list of edges, and add them to the mininum
 	// spanning tree if it the two vertices of the edge are not already
 	// connected by a path
@@ -110,19 +105,20 @@ public class Kruskal {
 			System.err.println(e);
 			break;
 		}
-	
 		// Get the IDs of the vertices from the hash table
 		int vert1 = ((Integer)vertIDs.find(curr.vert1).value()).intValue();
 		int vert2 = ((Integer)vertIDs.find(curr.vert2).value()).intValue();
+
+                //System.out.println("vert1: " + vert1 + ", vert2: " + vert2 + ", weight: " + curr.weight);
+                
 
 		// If the two vertices are not part of the same disjoint set,
 		// then union their sets and add the (undirected) edge to the
 		// minimum spanning tree T.
 
 		if(minSpanSet.find(vert1) != minSpanSet.find(vert2)){
-			minSpanSet.union(vert1, vert2);
+			minSpanSet.union(minSpanSet.find(vert1), minSpanSet.find(vert2));
 			T.addEdge(curr.vert1, curr.vert2, curr.weight);
-			T.addEdge(curr.vert2, curr.vert1, curr.weight);
 		}
 	}
 
