@@ -253,7 +253,7 @@ public class HashTableChained implements Dictionary {
         }
 
         // If the load factor is to small, shrink
-        else((size*1.0)/N <= .25){
+        else if((size*1.0)/N <= .25){
             // Get all of the entries
 
             // Initialize the new table
