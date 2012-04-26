@@ -10,27 +10,27 @@ package list;
  */
 
 class QueueSListNode{
-  Object item;
-  QueueSListNode next;
+    Object item;
+    QueueSListNode next;
 
-  /**
-   *  SListNode() (with one parameter) constructs a list node referencing the
-   *  item "obj".
-   */
+    /**
+     *  SListNode() (with one parameter) constructs a list node referencing the
+     *  item "obj".
+     */
 
-  QueueSListNode(Object obj) {
-    item = obj;
-    next = null;
-  }
+    QueueSListNode(Object obj) {
+	item = obj;
+	next = null;
+    }
 
-  /**
-   *  SListNode() (with two parameters) constructs a list node referencing the
-   *  item "obj", whose next list node is to be "next".
-   */
+    /**
+     *  SListNode() (with two parameters) constructs a list node referencing the
+     *  item "obj", whose next list node is to be "next".
+     */
 
-  QueueSListNode(Object obj, QueueSListNode next) {
-    item = obj;
-    this.next = next;
-  }
+    QueueSListNode(Object obj, QueueSListNode next) {
+	item = obj;
+	this.next = next;
+    }
 
 }

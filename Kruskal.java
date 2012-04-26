@@ -13,11 +13,11 @@ import list.*;
 
 public class Kruskal {
 
-  /**
-   * minSpanTree() returns a WUGraph that represents the minimum spanning tree
-   * of the WUGraph g.  The original WUGraph g is NOT changed.
-   */
-  public static WUGraph minSpanTree(WUGraph g){
+    /**
+     * minSpanTree() returns a WUGraph that represents the minimum spanning tree
+     * of the WUGraph g.  The original WUGraph g is NOT changed.
+     */
+    public static WUGraph minSpanTree(WUGraph g){
 
 	// Make a new empty graph, T, for the minimum spanning tree
 	WUGraph T = new WUGraph();
@@ -44,44 +44,40 @@ public class Kruskal {
 	Dictionary visited = new HashTableChained(); 
 
 	for(int i = 0; i < vertices.length; i++){
-		// Add the vertices from the original graph into T
-		T.addVertex(vertices[i]);
+	    // Add the vertices from the original graph into T
+	    T.addVertex(vertices[i]);
 
-		// Add the vertex to the vertIDs hash table
-		// to assign it a unique ID to be used
-		// with the disjoint sets
-		vertIDs.insert(vertices[i], new Integer(i));
+	    // Add the vertex to the vertIDs hash table
+	    // to assign it a unique ID to be used
+	    // with the disjoint sets
+	    vertIDs.insert(vertices[i], new Integer(i));
 
-		// Add the edge to the list of edges
-		Neighbors n = g.getNeighbors(vertices[i]);
-		for(int j = 0; j < n.neighborList.length; j++){
-			// If the edge is not already in the list,
-			// add it to the list of edges (if the vertex
-			// opposite to this in the current edge has
-			// already been visited, the edge is already
-			// added).
+	    // Add the edge to the list of edges
+	    Neighbors n = g.getNeighbors(vertices[i]);
+	    for(int j = 0; j < n.neighborList.length; j++){
+		// If the edge is not already in the list,
+		// add it to the list of edges (if the vertex
+		// opposite to this in the current edge has
+		// already been visited, the edge is already
+		// added).
 
-                        //System.out.println("Vertex 1: " + vertices[i].toString() + ", Vertex 2: " + n.neighborList[j] + ", weight: " + n.weightList[j]);
-                        if(n.neighborList[j] == null){
-                            continue;
-                        }
-			if(visited.find(n.neighborList[j]) == null){
-				edges.enqueue(new KruskalEdge(vertices[i], n.neighborList[j], n.weightList[j]));
-			}
-
-                //System.out.println(edges);
-
+		if(n.neighborList[j] == null){
+		    continue;
+		}
+		if(visited.find(n.neighborList[j]) == null){
+		    edges.enqueue(new KruskalEdge(vertices[i], n.neighborList[j], n.weightList[j]));
 		}
 
-		// Mark this vertex as visited (to prevent duplicate edges
-		// in the list of all of the edges)
-		visited.insert(vertices[i], true);
+	    }
+
+	    // Mark this vertex as visited (to prevent duplicate edges
+	    // in the list of all of the edges)
+	    visited.insert(vertices[i], true);
 	}
 
         // Assign the dictionary to null, since we don't need it
 	// anymore and to speed up garbage collection
 	visited = null;
-
 
 	// Sort edges by weight using mergesort, which is most likely the optimal
 	// choice for linked lists
@@ -97,35 +93,32 @@ public class Kruskal {
 	// connected by a path
 
 	while(!edges.isEmpty()){
-		KruskalEdge curr;
-		try{
-			curr = (KruskalEdge) edges.dequeue();
-		}
-		catch(QueueEmptyException e){
-			System.err.println(e);
-			break;
-		}
-		// Get the IDs of the vertices from the hash table
-		int vert1 = ((Integer)vertIDs.find(curr.vert1).value()).intValue();
-		int vert2 = ((Integer)vertIDs.find(curr.vert2).value()).intValue();
+	    KruskalEdge curr;
+	    try{
+		curr = (KruskalEdge) edges.dequeue();
+	    }
+	    catch(QueueEmptyException e){
+		System.err.println(e);
+		break;
+	    }
+	    // Get the IDs of the vertices from the hash table
+	    int vert1 = ((Integer)vertIDs.find(curr.vert1).value()).intValue();
+	    int vert2 = ((Integer)vertIDs.find(curr.vert2).value()).intValue();
 
-                //System.out.println("vert1: " + vert1 + ", vert2: " + vert2 + ", weight: " + curr.weight);
-                
+	    // If the two vertices are not part of the same disjoint set,
+	    // then union their sets and add the (undirected) edge to the
+	    // minimum spanning tree T.
 
-		// If the two vertices are not part of the same disjoint set,
-		// then union their sets and add the (undirected) edge to the
-		// minimum spanning tree T.
-
-		if(minSpanSet.find(vert1) != minSpanSet.find(vert2)){
-			minSpanSet.union(minSpanSet.find(vert1), minSpanSet.find(vert2));
-			T.addEdge(curr.vert1, curr.vert2, curr.weight);
-		}
+	    if(minSpanSet.find(vert1) != minSpanSet.find(vert2)){
+		minSpanSet.union(minSpanSet.find(vert1), minSpanSet.find(vert2));
+		T.addEdge(curr.vert1, curr.vert2, curr.weight);
+	    }
 	}
 
 	// Hooray! We did it! Minimum spanning tree get!!!
 
 	return T;
 
-  }
+    }
   
 }
