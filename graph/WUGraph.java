@@ -109,15 +109,19 @@ public class WUGraph {
     
 	    //removing vertex from vertexList
 	    DListNode tracker = (DListNode) vertexList.front();
-	    for(int n=0; n<vertexList.size; n++){
-		try{
+	    try {
+		while(tracker.isValidNode()){
+		    DListNode temp = (DListNode)tracker.next();
+		    
 		    if((tracker.item()).equals(vertex)){
 			tracker.remove();
 		    }
-		    tracker = (DListNode) tracker.next();
-		}catch(InvalidNodeException error){
+		    tracker = temp;
 		}
+	    }catch(InvalidNodeException error){
+		System.err.println(error + "llamas");
 	    }
+	    
     
 	    //removing edges from adjacency lists
 	    if(a.value() != null){
@@ -198,12 +202,7 @@ public class WUGraph {
 	for(int n = 0; n<iv.getAdjacencyListSize(); n++){
 	    try{
 		Edge edge1 = (Edge) edgeTracker.item();
-		if(edge1.getStart().equals(vertex)) {
-		    neighborList[n] = edge1.getEnd();
-		}
-		else {
-		    neighborList[n] = edge1.getStart();
-		}
+		neighborList[n] = edge1.getEnd();
 		VertexPair vpair = new VertexPair(edge1.getStart(), edge1.getEnd());
 		Entry b = edgeHashTable.find(vpair);
 		int weight1 = ((Edge)b.value()).getWeight();
@@ -244,7 +243,7 @@ public class WUGraph {
 		    }
 		}
 		catch(InvalidNodeException e) {
-		    System.err.println(e);
+		    System.err.println(e + "penguins");
 		}
 		edge1.weight = weight;
 	    }
@@ -294,14 +293,18 @@ public class WUGraph {
 	    }
 	    try {
 		if(oldEdge != null && oldEdge.node != null) {
-		    oldEdge.node.remove();
+		    if(oldEdge.node.isValidNode()) {
+			oldEdge.node.remove();
+		    }
 		}
 		if(oldEdge != null && oldEdge.getHalfEdge() != null && oldEdge.getHalfEdge().node != null) {
-		    oldEdge.getHalfEdge().node.remove();
+		    if(oldEdge.getHalfEdge().node.isValidNode()) {
+			oldEdge.getHalfEdge().node.remove();
+		    }
 		}
 	    }
 	    catch(InvalidNodeException e) {
-		System.err.println(e);
+		System.err.println(e + "turtles");
 	    }
 	}
     }
