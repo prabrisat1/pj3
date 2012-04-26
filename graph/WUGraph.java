@@ -263,8 +263,12 @@ public class WUGraph {
 		numberOfEdges--;
 		oldEdge = (Edge)old.value();
 		try {
-		    oldEdge.node.remove();
-		    oldEdge.getHalfEdge().node.remove();
+		    if(oldEdge.node != null) {
+			oldEdge.node.remove();
+		    }
+		    if(oldEdge.getHalfEdge().node != null) {
+			oldEdge.getHalfEdge().node.remove();
+		    }
 		}
 		catch(InvalidNodeException e) {
 		    System.err.println(e);
@@ -273,8 +277,6 @@ public class WUGraph {
 		edge1.weight = weight;
 		edge2 = edge1.getHalfEdge();
 	    }
-	    edgeHashTable.insert(vPair,edge1);
-	    numberOfEdges++;
 
 	    //update adjacency list of the vertices
 	    Entry uEntry = vertexHashTable.remove(u);
@@ -284,14 +286,20 @@ public class WUGraph {
 	    
 	    if(uEntry != null) {
 		uIV = (InternalVertex)uEntry.value();
-		uIV.adjacencyListInsert(edge1);
-		vertexHashTable.insert(u,uIV);
 	    }
+	    uIV.adjacencyListInsert(edge1);
+	    vertexHashTable.insert(u,uIV);
+
 	    if(vEntry != null) {
 		vIV = (InternalVertex)vEntry.value();
+	    }
+	    if(!u.equals(v)) {
 		vIV.adjacencyListInsert(edge2);
 		vertexHashTable.insert(v,vIV);
 	    }
+
+	    edgeHashTable.insert(vPair,edge1);
+	    numberOfEdges++;
 	}
     }
 
