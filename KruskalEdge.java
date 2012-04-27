@@ -10,9 +10,9 @@ import set.*;
 
 public class KruskalEdge implements Comparable{
 
-    public Object vert1; // Vertex 1
-    public Object vert2; // Vertex 2
-    public int weight; // The weight of the edge
+    protected Object vert1; // Vertex 1
+    protected Object vert2; // Vertex 2
+    protected int weight; // The weight of the edge
 
     public KruskalEdge(Object v1, Object v2, int w){
 	vert1 = v1;
