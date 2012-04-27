@@ -141,7 +141,9 @@ public class HashTableChained implements Dictionary {
      **/
 
     public Entry insert(Object key, Object value) {
-	// Replace the following line with your solution.
+        // Resize the hash table if necessary
+        resize();
+
 	int i = compFunction(key.hashCode());
 
 	if (hTable[i] == null){
@@ -153,9 +155,6 @@ public class HashTableChained implements Dictionary {
 	hTable[i].insertBack(e);
 	this.size++;
 
-	if(this.size/N > .75) { //loadFactor
-	    resize();
-	}
 
    	return e;
     }
@@ -209,7 +208,10 @@ public class HashTableChained implements Dictionary {
      */
 
     public Entry remove(Object key) {
-	// Replace the following line with your solution.
+        
+        // Resize the hash table if necessary
+        resize();
+
 	int i = compFunction(key.hashCode());
 
 	if (hTable[i] == null){
@@ -236,38 +238,54 @@ public class HashTableChained implements Dictionary {
    	return null;
     }
 
+
+     /** 
+     *  Resizes this hash table if necessary. Expands the table if the load
+     *  factor is too big and shrinks it if it is too small. Does nothing if
+     *  The load factor is fine.
+     *
+     *  @return void
+     */
+
     public void resize(){
-        // If the load factor is too big, expand
-        if((size*1.0)/N >= 1){
-            // Get all of the entries
-            
-            // Initialize the new table
-	    N = primeGreaterThan(2*N);
- 	    p = primeGreaterThan(2*N);
-	    a = (int) (Math.random() * p);
-	    b = (int) (Math.random() * p);
-	    hTable = new List[N];
+        if((size*1.0)/N >= .75){ // If the load factor is too big, expand
 
-            // Put all of the items in it
-
+            N = primeGreaterThan(2*N);
         }
+        else if((size*1.0)/N <= .25){ // If the load factor is too small, shrink
 
-        // If the load factor is to small, shrink
-        else if((size*1.0)/N <= .25){
-            // Get all of the entries
-
-            // Initialize the new table
-	    N = primeGreaterThan(N/2);
- 	    p = primeGreaterThan(2*N);
-	    a = (int) (Math.random() * p);
-	    b = (int) (Math.random() * p);
-	    hTable = new List[N];
-
-            // Put all of the items in it
-            
+            N = primeGreaterThan(N/2);
         }
-        
-        // Otherwise do nothing
+        else{ // Otherwise, no need to do anything, so return.
+            return;
+        }
+ 
+        // Change the compression variables, make a new table, and store the old table 
+
+        p = primeGreaterThan(2*N);
+        a = (int) (Math.random() * p);
+        b = (int) (Math.random() * p);
+        List[] oldTable = hTable;
+        hTable = new List[N];
+
+        // Get the entries from the old table and insert them in the new table
+        for(int i = 0; i < oldTable.length; i++){
+            List currList = oldTable[i];
+            if(currList == null){
+                continue;
+            }
+            try{ // Do or do not, there is no try
+                ListNode currNode = currList.front();
+                while(currNode.isValidNode()){
+                    Entry item = (Entry) currNode.item();
+                    insert(item.key(), item.value());
+                    currNode = currNode.next();
+                }
+            }
+            catch(InvalidNodeException e){
+                System.err.println(e);
+            }
+        }
 
     }
 
@@ -305,25 +323,4 @@ public class HashTableChained implements Dictionary {
 	System.out.println("Load Factor n/N: " + this.size + "/" + this.N + " = " + ((float)this.size)/this.N);
 
     }
-
-    public void resizeStuff() {
-	N = N*2;
-	List[] tempHashTable = hTable;
-	hTable = new List[N];
-	for(int i = 0; i < hTable.length; i++) {
-	    List lst = tempHashTable[i];
-	    try { //do or do not, there is no try
-		ListNode currentNode = lst.front();
-		while(currentNode.isValidNode()) {
-		    Entry item = (Entry)currentNode.item();
-		    insert(item.key(),item.value());
-		    currentNode = currentNode.next();
-		}
-	    }
-	    catch(InvalidNodeException e) {
-		System.err.println(e);
-	    }
-	}
-    }
-		    
 }
