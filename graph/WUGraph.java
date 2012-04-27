@@ -221,7 +221,9 @@ public class WUGraph {
 	    }
 	}catch(InvalidNodeException error){
 	}
-	Neighbors result = new Neighbors(neighborList, weightList);
+	Neighbors result = new Neighbors();
+	result.neighborList = neighborList;
+	result.weightList = weightList;
 	return result;
     }
     /**
