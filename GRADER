@@ -3,8 +3,15 @@ Praveen Puvvadi - cs61b-fk
 Sean Hickey - cs61b-jk
 
 
+WUGraph
 
+We used the DList class from homework 5 and the HashTableChained class from homework 6. Other data structures we made were the Edge class and InternalVertex class. 
+InternalVertex contains references to a vertex object and an adjacency list (DList). Served as an entry item in the vertex hashtable
+Edge contains references to its start and end vertices, weight, halfedge, and its adjacency listnode. Served as an entry item in the edge hashtable as well the InternVertex adjacency lists.
 
+RemoveVertex runs in O(d) time because it goes through that vertex's adjacency list (which is size d). As it moves through the list, it removes each edge from its list and each halfedge from the adjacency list of its neighbor. Removing each edge runs in constant time because each edge contains a reference to its node (which can remove itself from the list). Each hashtable function also runs in constant time, so the only factor is traversing the list of size d.
+
+GetVertices runs in O(|V|) time because it traverses through a DList of all the vertices, adding each vertex to an array which it returns. That list is updated with each add/remove vertex function.
 
 
 
