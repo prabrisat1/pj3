@@ -13,7 +13,7 @@ import java.util.Hashtable;
 public class WUGraph {
 	//set of stored values
     private DList vertexList;
-    private int numberOfVertexes;
+    private int numberOfVertexes;//grammar? nah, no vertices here
     private HashTableChained edgeHashTable;
     private HashTableChained vertexHashTable;
     private int numberOfEdges;
@@ -25,6 +25,7 @@ public class WUGraph {
      */
   
     public WUGraph() {
+	//everything starts out empty
 	edgeHashTable = new HashTableChained();
 	vertexHashTable = new HashTableChained();
 	vertexList = new DList();
@@ -68,6 +69,7 @@ public class WUGraph {
 	Object[] result;
 	//creates an array with enough spaces to fit all the vertexes
 	result = new Object[numberOfVertexes];
+	//go through vertexList to get all the vertices
 	try{
 		//iteratres through the vertex DList adding each item into the returned array
 	    DListNode tracker = (DListNode)vertexList.front();
@@ -93,7 +95,7 @@ public class WUGraph {
 	if(vertexHashTable.find(vertex) == null) {
 	    InternalVertex iVertex = new InternalVertex(vertex);
 	    Entry a = vertexHashTable.insert(vertex, iVertex);
-	    //a is never used, only there because the hashtable insert method returns an entry
+	    //a is never used, only there because the hashtable insert method returns an entry. might be unnecessary.
 	    numberOfVertexes++;
 	    //inserts vertex into the vertex DList for getvertices
 	    vertexList.insertBack(vertex); 
@@ -126,7 +128,11 @@ public class WUGraph {
 		    tracker = temp;
 		}
 	    }catch(InvalidNodeException error){
+<<<<<<< HEAD
 		System.err.println(error);
+=======
+		System.err.println(error + "llamas"); //LLAMAS
+>>>>>>> 65227c0b365396e3a2f97bd802752938c22c29d9
 	    }
 	    
     
@@ -150,7 +156,11 @@ public class WUGraph {
 	    }
 	    
 	}
+<<<<<<< HEAD
 	//remove the vertex from the hash table
+=======
+	//finally remove it from the hash table
+>>>>>>> 65227c0b365396e3a2f97bd802752938c22c29d9
 	vertexHashTable.remove(vertex);
     }
 
@@ -172,7 +182,11 @@ public class WUGraph {
      * Running time: O(1).
      */
     public int degree(Object vertex){
+<<<<<<< HEAD
     //finds the vertex in the hash table
+=======
+	//returns the size of its adjacencyList
+>>>>>>> 65227c0b365396e3a2f97bd802752938c22c29d9
 	Entry a = vertexHashTable.find(vertex);
 	int result = 0;
 	//returns the size of the adjacency list(the degree) of the vertex
@@ -201,13 +215,18 @@ public class WUGraph {
      * Running time: O(d), where d is the degree of "vertex".
      */
     public Neighbors getNeighbors(Object vertex){
+<<<<<<< HEAD
     //finds the vertex in the hash table
+=======
+	//goes through adjacencyList to find neighbors
+>>>>>>> 65227c0b365396e3a2f97bd802752938c22c29d9
 	Entry a = vertexHashTable.find(vertex);
 	InternalVertex iv = (InternalVertex) a.value();
 	DList adjacencyList = iv.getAdjacencyList();
 	if(iv.getAdjacencyListSize() == 0) { //nothing adjacent, no neighbors
 	    return null;
 	}
+	//keep track of what edge we're looking at
 	DListNode edgeTracker = (DListNode) adjacencyList.front();
 	Object[] neighborList = new Object[iv.getAdjacencyListSize()];
 	int[] weightList = new int[iv.getAdjacencyListSize()];
@@ -217,7 +236,7 @@ public class WUGraph {
 	    while(edgeTracker.isValidNode()) {
 		DListNode temp = (DListNode)edgeTracker.next();
 		Edge edge1 = (Edge) edgeTracker.item();
-		neighborList[n] = edge1.getEnd();
+		neighborList[n] = edge1.getEnd(); //the end vertex is it's neighbor, the start vertex is itself (self edges work, because both are itself)
 		VertexPair vpair = new VertexPair(edge1.getStart(), edge1.getEnd());
 		Entry b = edgeHashTable.find(vpair);
 		int weight1 = ((Edge)b.value()).getWeight();
@@ -228,7 +247,9 @@ public class WUGraph {
 	    }
 	}catch(InvalidNodeException error){
 	}
-	Neighbors result = new Neighbors(neighborList, weightList);
+	Neighbors result = new Neighbors();
+	result.neighborList = neighborList;
+	result.weightList = weightList;
 	return result;
     }
     /**
@@ -242,28 +263,34 @@ public class WUGraph {
      */
 
     public void addEdge(Object u, Object v, int weight) {
+	//first make sure the vertices exist
 	if(vertexHashTable.find(u) != null && vertexHashTable.find(v) != null) {
 	    VertexPair vPair = new VertexPair(u,v);
-	    Entry old = edgeHashTable.remove(vPair);
+	    //remove the old edge entry and store it so we can update the weight and reinsert it
+	    Entry old = edgeHashTable.remove(vPair); 
+	    //make new edges, will be overwritten if there was an old edge
 	    Edge edge1 = new Edge(u,v,weight);
 	    Edge edge2 = new Edge(v,u,weight);
 	    edge1.changeHalfEdge(edge2);
 	    edge2.changeHalfEdge(edge1);
-	    if(old != null) {
+	    if(old != null) {//if the old edge existed
+		//it was removed so --
 		numberOfEdges--;
-		edge1 = (Edge)old.value();
+		edge1 = (Edge)old.value();//make the new edge = old edge
 		try {
 		    if(edge1.node != null) {
+			//if it was in an adjacency list, remove it from it, will be reinserted later
 			edge1.node.remove();
 		    }
 		    if(edge1.getHalfEdge().node != null) {
+			//also remove its halfedge counterpart from its adjacency list
 			edge1.getHalfEdge().node.remove();
 		    }
 		}
 		catch(InvalidNodeException e) {
-		    System.err.println(e + "penguins");
+		    System.err.println(e + "penguins"); //PENGUINS
 		}
-		edge1.weight = weight;
+		edge1.weight = weight; //update the weight
 	    }
 
 	    //update adjacency list of the vertices
@@ -275,6 +302,7 @@ public class WUGraph {
 	    if(uEntry != null) {
 		uIV = (InternalVertex)uEntry.value();
 	    }
+	    //insert the new edge with the updated weight
 	    uIV.adjacencyListInsert(edge1);
 	    vertexHashTable.insert(u,uIV);
 
@@ -282,10 +310,14 @@ public class WUGraph {
 		vIV = (InternalVertex)vEntry.value();
 	    }
 	    if(!u.equals(v)) {
+		//if it wasn't a self edge, do the same for its halfedge
+		//it it was a self edge, it should already be in there
+		//because u and v are the same vertex
 		vIV.adjacencyListInsert(edge2);
 		vertexHashTable.insert(v,vIV);
 	    }
-
+	    
+	    //reinsert it with new value
 	    edgeHashTable.insert(vPair,edge1);
 	    numberOfEdges++;
 	}
@@ -301,28 +333,34 @@ public class WUGraph {
      */
 
     public void removeEdge(Object u, Object v) {
+	//make sure vertices exist
 	if(vertexHashTable.find(u) != null && vertexHashTable.find(v) != null) {
 	    VertexPair vPair = new VertexPair(u,v);
+	    //remove the edge from the hash table, store it so we can remove it from adjacency lists as well
 	    Entry old = edgeHashTable.remove(vPair);
 	    Edge oldEdge = null;
 	    if(old != null) {
+		//if it existed, it was removed
 		numberOfEdges--;
+		//and it exists so no null pointers here
 		oldEdge = (Edge)old.value();
 	    }
 	    try {
 		if(oldEdge != null && oldEdge.node != null) {
-		    if(oldEdge.node.isValidNode()) {
+		    //if it exists and was in an adjacency list remove it
+		    if(oldEdge.node.isValidNode()) { //if it's valid of course
 			oldEdge.node.remove();
 		    }
 		}
 		if(oldEdge != null && oldEdge.getHalfEdge() != null && oldEdge.getHalfEdge().node != null) {
+		    //same thing for the half edge
 		    if(oldEdge.getHalfEdge().node.isValidNode()) {
 			oldEdge.getHalfEdge().node.remove();
 		    }
 		}
 	    }
 	    catch(InvalidNodeException e) {
-		System.err.println(e + "turtles");
+		System.err.println(e + "turtles"); //TURTLES
 	    }
 	}
     }
@@ -357,9 +395,11 @@ public class WUGraph {
     public int weight(Object u, Object v) {
 	VertexPair vPair = new VertexPair(u,v);
 	Entry entry = edgeHashTable.find(vPair);
+	//return null if it doesn't exist
 	if(entry == null || entry.value() == null) {
 	    return 0;
 	}
+	//otherwise return the weight
 	else {
 	    return ((Edge)entry.value()).getWeight();
 	}

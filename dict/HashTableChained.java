@@ -82,14 +82,7 @@ public class HashTableChained implements Dictionary {
 	hTable = new List[N];    
     }
 
-    /**
-     *  Converts a hash code in the range Integer.MIN_VALUE...Integer.MAX_VALUE
-     *  to a value in the range 0...(size of hash table) - 1.
-     *
-     *  This function should have package protection (so we can test it), and
-     *  should be used by insert, find, and remove.
-     **/
-
+    // Returns x mod y
     private int mod(int x, int y){
 	int result = (x % y);
 	if (result < 0){
@@ -98,6 +91,14 @@ public class HashTableChained implements Dictionary {
 
 	return result;
     }
+
+    /**
+     *  Converts a hash code in the range Integer.MIN_VALUE...Integer.MAX_VALUE
+     *  to a value in the range 0...(size of hash table) - 1.
+     *
+     *  This function should have package protection (so we can test it), and
+     *  should be used by insert, find, and remove.
+     **/
 
     int compFunction(int code) {
 	return mod(mod(a*code + b, p), N);
@@ -140,7 +141,9 @@ public class HashTableChained implements Dictionary {
      **/
 
     public Entry insert(Object key, Object value) {
-	// Replace the following line with your solution.
+        // Resize the hash table if necessary
+        resize();
+
 	int i = compFunction(key.hashCode());
 
 	if (hTable[i] == null){
@@ -205,7 +208,10 @@ public class HashTableChained implements Dictionary {
      */
 
     public Entry remove(Object key) {
-	// Replace the following line with your solution.
+        
+        // Resize the hash table if necessary
+        resize();
+
 	int i = compFunction(key.hashCode());
 
 	if (hTable[i] == null){
@@ -230,6 +236,57 @@ public class HashTableChained implements Dictionary {
 	}
 
    	return null;
+    }
+
+
+     /** 
+     *  Resizes this hash table if necessary. Expands the table if the load
+     *  factor is too big and shrinks it if it is too small. Does nothing if
+     *  The load factor is fine.
+     *
+     *  @return void
+     */
+
+    public void resize(){
+        if((size*1.0)/N >= .75){ // If the load factor is too big, expand
+
+            N = primeGreaterThan(2*N);
+        }
+        else if((size*1.0)/N <= .25){ // If the load factor is too small, shrink
+
+            N = primeGreaterThan(N/2);
+        }
+        else{ // Otherwise, no need to do anything, so return.
+            return;
+        }
+ 
+        // Change the compression variables, make a new table, and store the old table 
+
+        p = primeGreaterThan(2*N);
+        a = (int) (Math.random() * p);
+        b = (int) (Math.random() * p);
+        List[] oldTable = hTable;
+        hTable = new List[N];
+
+        // Get the entries from the old table and insert them in the new table
+        for(int i = 0; i < oldTable.length; i++){
+            List currList = oldTable[i];
+            if(currList == null){
+                continue;
+            }
+            try{ // Do or do not, there is no try
+                ListNode currNode = currList.front();
+                while(currNode.isValidNode()){
+                    Entry item = (Entry) currNode.item();
+                    insert(item.key(), item.value());
+                    currNode = currNode.next();
+                }
+            }
+            catch(InvalidNodeException e){
+                System.err.println(e);
+            }
+        }
+
     }
 
     /**

@@ -17,9 +17,4 @@ package graph;
 public class Neighbors {
     public Object[] neighborList;
     public int[] weightList;
-  
-    public Neighbors(Object[] list1, int[] list2){
-	neighborList = list1;
-	weightList = list2;
-    }
 }
