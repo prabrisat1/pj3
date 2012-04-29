@@ -128,11 +128,8 @@ public class WUGraph {
 		    tracker = temp;
 		}
 	    }catch(InvalidNodeException error){
-<<<<<<< HEAD
 		System.err.println(error);
-=======
 		System.err.println(error + "llamas"); //LLAMAS
->>>>>>> 65227c0b365396e3a2f97bd802752938c22c29d9
 	    }
 	    
     
