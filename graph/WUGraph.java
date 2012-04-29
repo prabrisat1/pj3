@@ -11,6 +11,7 @@ import java.util.Hashtable;
  */
 
 public class WUGraph {
+	//set of stored values
     private DList vertexList;
     private int numberOfVertexes;
     private HashTableChained edgeHashTable;
@@ -65,8 +66,10 @@ public class WUGraph {
      */
     public Object[] getVertices(){
 	Object[] result;
+	//creates an array with enough spaces to fit all the vertexes
 	result = new Object[numberOfVertexes];
 	try{
+		//iteratres through the vertex DList adding each item into the returned array
 	    DListNode tracker = (DListNode)vertexList.front();
 	    for(int n = 0; n<numberOfVertexes; n++){
 		result[n] = tracker.item();
@@ -86,12 +89,14 @@ public class WUGraph {
      * Running time: O(1).
      */
     public void addVertex(Object vertex){
+    //only does things if the vertex isnt already in the hash table
 	if(vertexHashTable.find(vertex) == null) {
 	    InternalVertex iVertex = new InternalVertex(vertex);
 	    Entry a = vertexHashTable.insert(vertex, iVertex);
 	    //a is never used, only there because the hashtable insert method returns an entry
 	    numberOfVertexes++;
-	    vertexList.insertBack(vertex); //used in getVertices() only
+	    //inserts vertex into the vertex DList for getvertices
+	    vertexList.insertBack(vertex); 
 	}
     }
     
@@ -103,8 +108,10 @@ public class WUGraph {
      * Running time: O(d), where d is the degree of "vertex".
      */
     public void removeVertex(Object vertex){
+    //checks to see if the vertex is in the hash table
 	Entry a = vertexHashTable.find(vertex);
 	if(a != null){
+		//change counter for number of vertexes
 	    numberOfVertexes--;
     
 	    //removing vertex from vertexList
@@ -119,7 +126,7 @@ public class WUGraph {
 		    tracker = temp;
 		}
 	    }catch(InvalidNodeException error){
-		System.err.println(error + "llamas");
+		System.err.println(error);
 	    }
 	    
     
@@ -143,6 +150,7 @@ public class WUGraph {
 	    }
 	    
 	}
+	//remove the vertex from the hash table
 	vertexHashTable.remove(vertex);
     }
 
@@ -153,6 +161,7 @@ public class WUGraph {
      * Running time: O(1).
      */
     public boolean isVertex(Object vertex){
+    //checks if the vertex is in the hash table
 	return vertexHashTable.find(vertex) != null;
     }
     /**
@@ -163,8 +172,10 @@ public class WUGraph {
      * Running time: O(1).
      */
     public int degree(Object vertex){
+    //finds the vertex in the hash table
 	Entry a = vertexHashTable.find(vertex);
 	int result = 0;
+	//returns the size of the adjacency list(the degree) of the vertex
 	if(a != null){
 	    InternalVertex iv = (InternalVertex) a.value();
 	    result = iv.getAdjacencyListSize();
@@ -190,6 +201,7 @@ public class WUGraph {
      * Running time: O(d), where d is the degree of "vertex".
      */
     public Neighbors getNeighbors(Object vertex){
+    //finds the vertex in the hash table
 	Entry a = vertexHashTable.find(vertex);
 	InternalVertex iv = (InternalVertex) a.value();
 	DList adjacencyList = iv.getAdjacencyList();
@@ -201,6 +213,7 @@ public class WUGraph {
 	int[] weightList = new int[iv.getAdjacencyListSize()];
 	int n = 0;
 	try {
+		//loops through the adjacency list adding in each vertex which is connected by an edge to the inputted vertex
 	    while(edgeTracker.isValidNode()) {
 		DListNode temp = (DListNode)edgeTracker.next();
 		Edge edge1 = (Edge) edgeTracker.item();
